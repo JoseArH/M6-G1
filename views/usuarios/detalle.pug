@@ -1,7 +1,7 @@
 doctype html
 html
   head
-    title #{producto.nombre}
+    title #{usuario.nombre}
     link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css")
   body
     .container
@@ -9,34 +9,34 @@ html
         .col-md-8.offset-md-2
           .card
             .card-body
-              h1.card-title #{producto.nombre}
-              p.card-text.lead #{producto.descripcion}
+              h1.card-title #{usuario.nombre}
+              h1.card-title #{usuario.apellido}
 
               hr
 
               .row
                 .col-md-6
-                  p.font-weight-bold Precio: 
-                  span.badge.badge-success #{producto.precio} $
+                  p.font-weight-bold Correo: 
+                  span.badge.badge-success #{usuario.correo}
                 .col-md-6
-                  p.font-weight-bold Inventario: 
-                  span.badge.badge-info #{producto.inventario}
+                  p.font-weight-bold Rol: 
+                  span.badge.badge-info #{usuario.rol}
 
               hr
 
               .row.mt-3
                 .col
-                  a.btn.btn-secondary(href="/productos") Volver a la lista de productos
+                  a.btn.btn-secondary(href="/usuarios") Volver a la lista de usuarios
 
               .row.mt-3
                 .col-md-6
-                  // Formulario para eliminar producto
-                  form(action=`/productos/${producto.id}/eliminar` method="POST")
-                    button.btn.btn-danger(type="submit") Eliminar Producto
+                  // Formulario para eliminar usuario
+                  form(action=`/usuarios/${usuario.id}/delete` method="post")
+                    button.btn.btn-danger(type="submit") Eliminar Usuario
 
                 .col-md-6
-                  // Formulario para actualizar producto
-                  a.btn.btn-primary(href=`/productos/${producto.id}/editar`) Actualizar Producto
+                  // Formulario para actualizar usuarios
+                  a.btn.btn-primary(href=`/usuarios/${usuario.id}/editar`) Actualizar Usuario
 
     script(src="https://code.jquery.com/jquery-3.5.1.slim.min.js")
     script(src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js")

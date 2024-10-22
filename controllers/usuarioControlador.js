@@ -7,7 +7,7 @@ const obtenerUsuarios = async (req, res) => {
 };
 
 const obtenerUsuario = async (req, res) => {
-    const usuario = await productoUsuario.obtenerUsuarioPorId(req.params.id);
+    const usuario = await usuarioServicio.obtenerUsuarioPorId(req.params.id);
     res.render("usuarios/detalle", { usuario });
 };
 
@@ -33,13 +33,13 @@ const eliminarUsuario = async (req, res) => {
     res.redirect("/usuarios");
 };
 
-// const mostrarFormularioEditarProducto = async (req, res) => {
-//   const usuario = await Usuario.findByPk(req.params.id);
-//   if (!usuario) {
-//     return res.status(404).send('Usuario no encontrado');
-//   }
-//   res.render('productos/editarProducto', { usuario });
-// };
+const mostrarFormularioEditarUsuario = async (req, res) => {
+    const usuario = await Usuario.findByPk(req.params.id);
+    if (!usuario) {
+        return res.status(404).send('Usuario no encontrado');
+    }
+    res.render('usuarios/editarUsuario', { usuario });
+};
 
 module.exports = {
     obtenerUsuarios,
@@ -47,4 +47,5 @@ module.exports = {
     crearUsuario,
     actualizarUsuario,
     eliminarUsuario,
+    mostrarFormularioEditarUsuario
 };

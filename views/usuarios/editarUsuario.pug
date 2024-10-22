@@ -5,29 +5,29 @@ html
     link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css")
   body
     .container
-      h1.mt-5 Editar Producto
+      h1.mt-5 Editar Usuario
 
-      form(action=`/productos/${producto.id}/actualizar` method="POST")
+      form(action=`/usuarios/${usuario.id}/actualizar` method="post")
         .form-group
           label(for="nombre") Nombre:
-          input.form-control(type="text" name="nombre" value=producto.nombre required)
+          input.form-control(type="text" name="nombre" value=usuario.nombre required)
 
         .form-group
-          label(for="descripcion") Descripción:
-          input.form-control(type="text" name="descripcion" value=producto.descripcion required)
+          label(for="apellido") Apellido:
+          input.form-control(type="text" name="apellido" value=usuario.apellido required)
 
         .form-group
-          label(for="precio") Precio:
-          input.form-control(type="number" step="0.01" name="precio" value=producto.precio required)
+          label(for="correo") Correo:
+          input.form-control(type="text" name="correo" value=usuario.correo required)
 
         .form-group
-          label(for="inventario") Inventario:
-          input.form-control(type="number" name="inventario" value=producto.inventario required)
+          label(for="contrasena") Contraseña:
+          input.form-control(type="text" name="contrasena" value=usuario.contrasena required)
 
         .form-group
-          label(for="categoria") Categoría:
-          input.form-control(type="text" name="categoria" value=producto.categoria required)
+          label(for="rol") Rol:
+          input.form-control(type="text" name="rol" value=usuario.rol required)
 
-        button.btn.btn-primary(type="submit") Actualizar Producto
+        button.btn.btn-primary(type="submit") Actualizar Usuario
 
-      a.btn.btn-secondary.mt-3(href="/productos") Volver a la lista de productos
+      a.btn.btn-secondary.mt-3(href="/usuarios") Volver a la lista de usuarios

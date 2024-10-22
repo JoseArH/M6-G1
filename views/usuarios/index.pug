@@ -14,15 +14,15 @@ html
             th Nombre
             th Apellido
             th Correo
-            th Contraseña
+            //- th Contraseña
             th Rol
         tbody
           for usuario in usuarios
             tr
               td #{usuario.nombre}
               td #{usuario.apellido}
-              td #{usuario.correo} $
-              td #{usuario.contrasena}
+              td #{usuario.correo}
+              //- td #{usuario.contrasena}
               td #{usuario.rol}
               td 
                 a.btn.btn-info(href=`/usuarios/${usuario.id}`) Ver Detalles
