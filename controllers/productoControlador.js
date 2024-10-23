@@ -4,8 +4,7 @@ const Producto = require('../models/Producto');
 
 const obtenerProductos = async (req, res) => {
   const productos = await productoServicio.obtenerTodosLosProductos();
-  const categorias = await categoriaServicio.obtenerTodoslasCategorias();
-  res.render('productos/index', { productos, categorias });
+  res.render('productos/index', { productos });
 };
 
 const obtenerProducto = async (req, res) => {
