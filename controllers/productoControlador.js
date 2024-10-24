@@ -36,11 +36,21 @@ const mostrarFormularioEditarProducto = async (req, res) => {
   res.render('productos/editarProducto', { producto });
 };
 
+const obtenerProductosJson = async (req, res) => {
+  try {
+    const productos = await productoServicio.obtenerTodosLosProductos();
+    return res.json(productos); 
+  } catch (error) {
+    res.status(500).json({ message: 'Error al obtener productos', error });
+  }
+};
+
 module.exports = {
   obtenerProductos,
   obtenerProducto,
   crearProducto,
   actualizarProducto,
   eliminarProducto,
-  mostrarFormularioEditarProducto
+  mostrarFormularioEditarProducto,
+  obtenerProductosJson,
 };

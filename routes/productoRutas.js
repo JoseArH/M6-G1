@@ -3,6 +3,7 @@ const router = express.Router();
 const productoControlador = require('../controllers/productoControlador');
 
 router.get('/', productoControlador.obtenerProductos);
+router.get('/json', productoControlador.obtenerProductosJson);
 router.get('/:id', productoControlador.obtenerProducto);
 router.post('/', productoControlador.crearProducto);
 router.post('/:id/actualizar', productoControlador.actualizarProducto);

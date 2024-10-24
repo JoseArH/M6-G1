@@ -4,6 +4,7 @@ const Usuario = require("../models/Usuario");
 const obtenerUsuarios = async (req, res) => {
     const usuarios = await usuarioServicio.obtenerTodosLosUsuarios();
     res.render("usuarios/index", { usuarios });
+    // res.status(200).send(usuarios)
 };
 
 const obtenerUsuario = async (req, res) => {

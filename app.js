@@ -33,9 +33,11 @@ app.set("views", "./views");
 app.get("/", (req, res) => {
   res.render("index", { titulo: "Bienvenido a la Tienda" });
 });
-app.use("/productos", productoRutas);
-app.use("/categorias", categoriasRutas);
-app.use("/usuarios", usuarioRutas);
+app.use('/productos', productoRutas);
+app.use('/categorias', categoriasRutas);
+app.use('/usuarios', usuarioRutas);
+
+app.use('/json', require('./routes/productoRutas'));
 
 const PUERTO = process.env.PUERTO || 3000;
 app.listen(PUERTO, () => {
