@@ -13,13 +13,14 @@ html
           tr
             th Nombre
             th Descripción
+            th
         tbody
           each categoria in categorias
             tr
               td #{categoria.nombre}
               td #{categoria.descripcion}
               td 
-                a.btn.btn-info(href=`/categoria/${categoria.id}`) Ver Detalles
+                a.btn.btn-info(href=`/categorias/${categoria.id}`) Ver Detalles
               
       h2.mt-5 Crear una nueva categoria
       form(action="/categorias" method="POST" class="mt-3")

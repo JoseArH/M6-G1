@@ -1,0 +1,21 @@
+doctype html
+html
+  head
+    title Editar Categoria
+    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css")
+  body
+    .container
+      h1.mt-5 Editar Categoria
+
+      form(action=`/categorias/${categoria.id}/actualizar` method="POST")
+        .form-group
+          label(for="nombre") Nombre:
+          input.form-control(type="text" name="nombre" value=categoria.nombre required)
+
+        .form-group
+          label(for="descripcion") Descripción:
+          input.form-control(type="text" name="descripcion" value=categoria.descripcion required)
+
+        button.btn.btn-primary(type="submit") Actualizar Categoria
+
+      a.btn.btn-secondary.mt-3(href="/categorias") Volver a la lista de categorias

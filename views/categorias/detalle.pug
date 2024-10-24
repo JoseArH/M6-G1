@@ -1,0 +1,33 @@
+doctype html
+html
+  head
+    title #{categoria.nombre}
+    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css")
+  body
+    .container
+      .row.mt-5
+        .col-md-8.offset-md-2
+          .card
+            .card-body
+              h1.card-title #{categoria.nombre}
+              p.card-body #{categoria.descripcion}
+
+              hr
+
+              .row.mt-3
+                .col
+                  a.btn.btn-secondary(href="/categorias") Volver a la lista de categorias
+
+              .row.mt-3
+                .col-md-6
+                  // Formulario para eliminar categoria
+                  form(action=`/categorias/${categoria.id}` method="post")
+                    button.btn.btn-danger(type="submit") Eliminar Categoria
+
+                .col-md-6
+                  // Formulario para actualizar categorias
+                  a.btn.btn-primary(href=`/categorias/${categoria.id}/editar`) Actualizar Categoria
+
+    script(src="https://code.jquery.com/jquery-3.5.1.slim.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js")
+    script(src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js")

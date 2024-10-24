@@ -1,3 +1,4 @@
+const Categoria = require('../models/Categorias');
 const categoriaServicio = require('../services/categoriaServicio');
 
 const obtenerCategorias = async (req, res) => {
@@ -11,7 +12,33 @@ const crearCategoria = async (req, res) => {
   res.redirect('/categorias');
 };
 
+const obtenerCategoria = async (req, res) => {
+  const categoria = await categoriaServicio.obtenerCategoriaPorId(req.params.id);
+  res.render('categorias/detalle', { categoria });
+};
+
+const eliminarCategoria = async (req, res) => {
+  await categoriaServicio.eliminarCategoria(req.params.id);
+  res.redirect('/categorias');
+};
+
+const actualizarCategoria = async (req, res) => {
+  await categoriaServicio.actualizarCategoria(req.params.id, req.body);
+  res.redirect('/categorias');
+};
+const mostrarFormularioEditarCategoria = async (req, res) => {
+  const categoria = await Categoria.findByPk(req.params.id);
+  if (!categoria) {
+    return res.status(404).send('Categoria no encontrado');
+  }
+  res.render('categorias/editarCategoria', { categoria });
+};
+
 module.exports = {
     obtenerCategorias,
-    crearCategoria
+    crearCategoria,
+    obtenerCategoria,
+    eliminarCategoria,
+    actualizarCategoria,
+    mostrarFormularioEditarCategoria
 };

@@ -1,5 +1,4 @@
 const productoServicio = require('../services/productoServicio');
-const categoriaServicio = require('../services/categoriaServicio');
 const Producto = require('../models/Producto');
 
 const obtenerProductos = async (req, res) => {
