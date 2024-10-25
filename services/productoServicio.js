@@ -1,4 +1,5 @@
 const Producto = require('../models/Producto');
+const { Op } = require("sequelize");
 
 const obtenerTodosLosProductos = async () => {
   return await Producto.findAll();
@@ -28,10 +29,28 @@ const eliminarProducto = async (id) => {
   return null;
 };
 
+const buscarPorNombre = async (buscar) => { 
+  console.log("Valor de la busqueda: ", buscar);
+  try{
+    return await Producto.findAll({
+      where: {
+        [Op.or] : [
+          {nombre: {[Op.iLike]: `%${buscar}%` }},
+          {categoria: {[Op.iLike]: `%${buscar}%` }}]
+      }
+    })
+  }
+  catch (error) {
+    console.error('Error al buscar producto:', error);
+    throw error;
+  }
+}
+
 module.exports = {
   obtenerTodosLosProductos,
   obtenerProductoPorId,
   crearProducto,
   actualizarProducto,
   eliminarProducto,
+  buscarPorNombre
 };

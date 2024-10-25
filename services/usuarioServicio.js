@@ -19,7 +19,6 @@ const crearUsuario = async (datos) => {
     contrasena: hashedPass,
   };
 
-  console.log("contraseña tomada de la variable userData: ", userData.contrasena);
   return await Usuario.create(userData);
 };
 
