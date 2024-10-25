@@ -2,9 +2,10 @@ doctype html
 html
   head
     title #{titulo}
-    link(rel="stylesheet", href="/css/styles.css")
+    link(rel='stylesheet', href='/css/styles.css')
   body
     .container
+      // Sección de bienvenida
       h1 Bienvenido a la tienda
       p La mejor tienda
 
@@ -23,3 +24,8 @@ html
         h2 Productos destacados
 
       // Puedes agregar más secciones según lo necesites
+
+    // Enlaces de Login y Registro en una esquina superior
+    .top-right
+      a.btn(href="/auth/login") Login
+      a.btn(href="/auth/registro") Registro

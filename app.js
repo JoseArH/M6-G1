@@ -5,10 +5,18 @@ const { conectarBD, sequelize } = require("./config/db");
 const productoRutas = require("./routes/productoRutas");
 const categoriasRutas = require("./routes/categoriasRutas");
 const usuarioRutas = require("./routes/usuarioRuta");
+const authRutas = require('./routes/authRutas'); // Asegúrate de que el path sea correcto
 
 dotenv.config();
 
 const app = express();
+
+// Configuración de vistas
+app.set('view engine', 'pug');
+app.set('views', './views');
+
+// Middleware para manejar rutas
+app.use('/auth', authRutas);
 
 // Conectar a la base de datos
 conectarBD();
