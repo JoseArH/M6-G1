@@ -4,31 +4,31 @@ const { sequelize } = require('../config/db');
 const Usuario = sequelize.define('Usuario', {
   id: {
     type: DataTypes.UUID,
-    defaultValue: DataTypes.UUIDV4,  
+    defaultValue: DataTypes.UUIDV4,
     allowNull: false,
     primaryKey: true,
   },
-    nombre: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-    apellido: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-    correo: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-    contrasena: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-    rol: {
-        type: DataTypes.ENUM('admin', 'comprador'), 
-        allowNull: false,
-      },
-    });
+  nombre: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  apellido: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  correo: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  contrasena: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  rol: {
+    type: DataTypes.ENUM('admin', 'comprador'),
+    allowNull: false,
+  },
+});
 
 
 module.exports = Usuario;

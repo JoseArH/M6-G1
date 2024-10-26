@@ -14,6 +14,7 @@ const obtenerUsuario = async (req, res) => {
 
 const crearUsuario = async (req, res) => {
     const { nombre, apellido, correo, contrasena, rol } = req.body;
+    // const rol = usuarioServicio.actualizarUsuario(req.body.rol);
     await usuarioServicio.crearUsuario({
         nombre,
         apellido,
@@ -61,7 +62,8 @@ module.exports = {
     crearUsuario,
     actualizarUsuario,
     eliminarUsuario,
-    mostrarFormularioEditarUsuario
+    mostrarFormularioEditarUsuario,
+    crearComprador
 };
 
 
