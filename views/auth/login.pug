@@ -2,17 +2,26 @@ doctype html
 html
   head
     title Login Page
-    link(rel='stylesheet', href='/styles.css')
+    link(rel="stylesheet", href="/css/styles.css")
   body
-    h1 Iniciar sesion
-    form(action="/login" method="POST")
-      label(for="email") Email:
-      input(type="email" id="email" name="email" required)
+    .container
+      h1 Iniciar Sesión
 
-      label(for="password") Password:
-      input(type="password" id="password" name="password" required)
+      if error
+        p.error #{error}
 
-      button(type="submit") Log In
-    p
-      | Don't have an account? 
-      a(href="/register") Register here
+      form(action="/login" method="POST")
+        label(for="email") Correo Electrónico:
+        input(type="email" id="email" name="email" placeholder="Ingrese su correo" required)
+
+        label(for="password") Contraseña:
+        input(type="password" id="password" name="password" placeholder="Ingrese su contraseña" required)
+
+        button(type="submit") Iniciar Sesión
+
+      p
+        | ¿No tienes una cuenta?
+        a(href="/auth/registro") Regístrate aquí
+
+    footer
+      //p © 2024 Tu Tienda Online. Todos los derechos reservados.

@@ -12,11 +12,32 @@ const obtenerUsuarioPorId = async (id) => {
 const crearUsuario = async (datos) => {
   const { contrasena, ...restDatos } = datos;
 
-  let hashedPass =  await bcrypt.hash(contrasena, 10); 
+  let hashedPass = await bcrypt.hash(contrasena, 10);
 
   const userData = {
     ...restDatos,
     contrasena: hashedPass,
+  };
+
+  return await Usuario.create(userData);
+};
+
+const crearComprador = async (datos) => {
+  const { contrasena, email, ...restDatos } = datos;
+
+  const usuarioExistente = await Usuario.findOne({ where: { email } });
+
+  if (usuarioExistente) {
+    throw new Error("El usuario ya existe.");
+  }
+
+  let hashedPass = await bcrypt.hash(contrasena, 10);
+
+  const userData = {
+    ...restDatos,
+    email,
+    contrasena: hashedPass,
+    rol: 'comprador',
   };
 
   return await Usuario.create(userData);
@@ -42,6 +63,7 @@ module.exports = {
   obtenerTodosLosUsuarios,
   obtenerUsuarioPorId,
   crearUsuario,
+  crearComprador,
   actualizarUsuario,
   eliminarUsuario,
 };

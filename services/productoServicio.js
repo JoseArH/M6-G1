@@ -30,7 +30,6 @@ const eliminarProducto = async (id) => {
 };
 
 const buscarPorNombre = async (buscar) => { 
-  console.log("Valor de la busqueda: ", buscar);
   try{
     return await Producto.findAll({
       where: {

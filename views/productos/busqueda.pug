@@ -9,37 +9,25 @@ html
             section 
                 h1.mt-5 Resultados de la búsqueda
                 //Tabla resultado de búsquedas
-                //- table.table.table-striped.mt-4
-                //-     thead
-                //-         tr
-                //-             th Nombre
-                //-             th Descripción
-                //-             th Precio
-                //-             th Inventario
-                //-             th Categoría
-                //-     tbody
-                //-         for producto in productos
-                //-             tr
-                //-                 td #{producto.nombre}
-                //-                 td #{producto.descripcion}
-                //-                 td $ #{producto.precio}
-                //-                 td #{producto.inventario}
-                //-                 td #{producto.categoria}
-
-                //Tarjetas con las coincidencias de búsqueda
-                if productos && productos.length > 0
-                    .mt-4
-                        .row
-                            each producto in productos
-                                .col-md-4.mb-3
-                                    .card
-                                        .card-body
-                                            h4.card-title= producto.nombre
-                                            p.card-text Descripción: #{producto.descripcion}
-                                            p.card-text Precio: $#{producto.precio}
-                                            p.card-text Categoría: #{producto.categoria}
-                else if terminoBusqueda
-                    .alert.alert-info No se encontraron productos que coincidan con la búsqueda
+                table.table.table-striped.mt-4
+                    thead
+                        tr
+                            th Nombre
+                            th Descripción
+                            th Precio
+                            th Inventario
+                            th Categoría
+                    tbody
+                    if productos && productos.length > 0
+                        each producto in productos
+                            tr
+                                td #{producto.nombre}
+                                td #{producto.descripcion}
+                                td $ #{producto.precio}
+                                td #{producto.inventario}
+                                td #{producto.categoria}
+                    else if terminoBusqueda
+                        .alert.alert-info No se encontraron productos que coincidan con la búsqueda
 
     // Scripts de Bootstrap, Popper.js y jQuery
     script(src="https://code.jquery.com/jquery-3.5.1.slim.min.js")

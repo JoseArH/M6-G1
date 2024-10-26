@@ -14,7 +14,6 @@ html
             th Nombre
             th Apellido
             th Correo
-            //- th Contraseña
             th Rol
         tbody
           for usuario in usuarios
@@ -22,7 +21,6 @@ html
               td #{usuario.nombre}
               td #{usuario.apellido}
               td #{usuario.correo}
-              //- td #{usuario.contrasena}
               td #{usuario.rol}
               td 
                 a.btn.btn-info(href=`/usuarios/${usuario.id}`) Ver Detalles
@@ -47,7 +45,9 @@ html
 
         .form-group
           label(for="rol") Rol:
-          input.form-control(type="text" name="rol" required)
+          select.form-control(name="perfil" required)
+            option(value="admin") Admin
+            option(value="comprador") Comprador
 
         button.btn.btn-primary(type="submit") Crear Usuario
 

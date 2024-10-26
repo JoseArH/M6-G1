@@ -24,6 +24,19 @@ const crearUsuario = async (req, res) => {
     res.redirect("/usuarios");
 };
 
+const crearComprador = async (req, res) => {
+    const { nombre, apellido, correo, contrasena } = req.body;
+
+    await usuarioServicio.crearComprador({
+        nombre,
+        apellido,
+        correo,
+        contrasena,
+    });
+
+    res.redirect('/auth/registro');
+}
+
 const actualizarUsuario = async (req, res) => {
     await usuarioServicio.actualizarUsuario(req.params.id, req.body);
     res.redirect("/usuarios");
@@ -50,3 +63,5 @@ module.exports = {
     eliminarUsuario,
     mostrarFormularioEditarUsuario
 };
+
+

@@ -2,23 +2,35 @@ doctype html
 html
   head
     title Registro
-    link(rel='stylesheet', href='/css/styles.css')
+    link(rel="stylesheet", href="/css/styles.css")
   body
-    h1 Register
-    form(action="/register" method="POST")
-      label(for="name") Name:
-      input(type="text" id="name" name="name" required)
+    .container
+      h1 Registro
 
-      label(for="email") Email:
-      input(type="email" id="email" name="email" required)
+      if error
+        p.error #{error}
 
-      label(for="password") Password:
-      input(type="password" id="password" name="password" required)
+      form(action="/register" method="POST")
+        label(for="name") Nombre:
+        input(type="text" id="name" name="name" placeholder="" required)
 
-      label(for="confirm-password") Confirm Password:
-      input(type="password" id="confirm-password" name="confirm-password" required)
+        label(for="lastname") Apellido:
+        input(type="text" id="lastname" name="lastname" placeholder="" required)
 
-      button(type="submit") Register
-    p
-      | Already have an account? 
-      a(href="/auth/login") Log in here
+        label(for="email") Correo Electrónico:
+        input(type="email" id="email" name="email" placeholder="" required)
+
+        label(for="password") Contraseña:
+        input(type="password" id="password" name="password" placeholder="" required)
+
+        label(for="confirm-password") Confirmar Contraseña:
+        input(type="password" id="confirm-password" name="confirm-password" placeholder="" required)
+
+        button(type="submit") Registrarse
+
+      p
+        | ¿Ya tienes una cuenta?
+        a(href="/auth/login") Inicia sesión aquí
+
+    footer
+      //p © 2024 Tu Tienda Online. Todos los derechos reservados.
