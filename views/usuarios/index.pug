@@ -37,11 +37,11 @@ html
 
         .form-group
           label(for="correo") Correo:
-          input.form-control(type="email" name="correo" required)
+          input.form-control(type="email" name="correo" pattern="^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$" required)
 
         .form-group
           label(for="contrasena") Contraseña:
-          input.form-control(type="password" name="contrasena" required)
+          input.form-control(type="password" name="contrasena" minlength="8" required)
 
         .form-group
           label(for="rol") Rol:

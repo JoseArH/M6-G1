@@ -18,13 +18,13 @@ html
         input(type="text" id="lastname" name="lastname" placeholder="" required)
 
         label(for="email") Correo Electrónico:
-        input(type="email" id="email" name="email" placeholder="" required)
+        input(type="email" id="email" name="email" pattern="/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/" placeholder="" required)
 
         label(for="password") Contraseña:
-        input(type="password" id="password" name="password" placeholder="" required)
+        input(type="password" id="password" name="password" placeholder="" minlength="8" required )
 
         label(for="confirm-password") Confirmar Contraseña:
-        input(type="password" id="confirm-password" name="confirm-password" placeholder="" required)
+        input(type="password" id="confirm-password" name="confirm-password" minlength="8" placeholder="" required)
 
         button(type="submit") Registrarse
 
@@ -32,5 +32,5 @@ html
         | ¿Ya tienes una cuenta?
         a(href="/auth/login") Inicia sesión aquí
 
-    footer
-      //p © 2024 Tu Tienda Online. Todos los derechos reservados.
+      footer
+        p
