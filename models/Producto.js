@@ -28,6 +28,9 @@ const Producto = sequelize.define('Producto', {
   categoria: {
     type: DataTypes.STRING,
   },
+  imagen: {
+    type: DataTypes.STRING,
+  },
 });
 
 module.exports = Producto;

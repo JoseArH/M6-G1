@@ -33,6 +33,8 @@ app.use(bodyParser.json());
 // Sirviendo archivos estáticos desde la carpeta 'public'
 app.use(express.static("public"));
 
+app.use('/uploads', express.static('uploads'));
+
 // Ruta principal
 app.get("/", (req, res) => {
   res.render("index", { titulo: "Bienvenido a la Tienda" });

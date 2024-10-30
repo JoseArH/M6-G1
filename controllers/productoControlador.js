@@ -12,9 +12,24 @@ const obtenerProducto = async (req, res) => {
 };
 
 const crearProducto = async (req, res) => {
-  const { nombre, descripcion, precio, inventario, categoria } = req.body;
-  await productoServicio.crearProducto({ nombre, descripcion, precio, inventario, categoria });
-  res.redirect('/productos');
+  try {
+    const { nombre, descripcion, precio, inventario, categoria } = req.body;
+    const imagen = req.file ? `/uploads/${req.file.filename}` : null; // Modificar para incluir /uploads/
+
+    await productoServicio.crearProducto({
+      nombre,
+      descripcion,
+      precio,
+      inventario,
+      categoria,
+      imagen,
+    });
+
+    res.redirect('/productos');
+  } catch (error) {
+    console.error('Error al crear producto:', error);
+    res.status(500).send('Error al crear el producto');
+  }
 };
 
 const actualizarProducto = async (req, res) => {
