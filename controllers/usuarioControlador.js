@@ -13,30 +13,78 @@ const obtenerUsuario = async (req, res) => {
 };
 
 const crearUsuario = async (req, res) => {
-    const { nombre, apellido, correo, contrasena, rol } = req.body;
-    // const rol = usuarioServicio.actualizarUsuario(req.body.rol);
-    await usuarioServicio.crearUsuario({
-        nombre,
-        apellido,
-        correo,
-        contrasena,
-        rol,
-    });
-    res.redirect("/usuarios");
+    try {
+        const { nombre, apellido, correo, contrasena } = req.body;
+        // Forzamos el rol admin para la vista de usuarios
+        await usuarioServicio.crearUsuario({
+            nombre,
+            apellido,
+            correo,
+            contrasena,
+            rol: 'admin'  // Forzamos el rol admin
+        });
+        res.redirect("/usuarios");
+    } catch (error) {
+        console.error('Error al crear usuario:', error);
+        res.status(500).render('usuarios/index', {
+            usuarios: await usuarioServicio.obtenerTodosLosUsuarios(),
+            error: 'Error al crear el usuario'
+        });
+    }
 };
 
 const crearComprador = async (req, res) => {
-    const { nombre, apellido, correo, contrasena } = req.body;
+    try {
+        // Verificar si req.body existe
+        if (!req.body) {
+            throw new Error('No se recibieron datos del formulario');
+        }
 
-    await usuarioServicio.crearComprador({
-        nombre,
-        apellido,
-        correo,
-        contrasena,
-    });
+        console.log('Datos del formulario:', req.body);
+        
+        const { nombre, apellido, correo, contrasena } = req.body;
+        
+        // Validaciones básicas
+        if (!nombre || !apellido || !correo || !contrasena) {
+            throw new Error('Todos los campos son requeridos');
+        }
 
-    res.redirect('/auth/registro');
-}
+        // Intentamos crear el usuario
+        const nuevoUsuario = await usuarioServicio.crearUsuario({
+            nombre,
+            apellido,
+            correo,
+            contrasena,
+            rol: 'comprador'
+        });
+
+        console.log('Usuario creado:', nuevoUsuario);
+        res.render('auth/registro-exitoso', {
+            mensaje: '¡Usuario creado exitosamente!',
+            nombre: nombre
+        });
+    } catch (error) {
+        console.error('Error detallado:', error);
+        
+        // Mensaje de error más específico
+        let mensajeError = 'Error al crear el usuario';
+        if (error.name === 'SequelizeUniqueConstraintError') {
+            mensajeError = 'El correo electrónico ya está registrado';
+        } else if (error.message) {
+            mensajeError = error.message;
+        }
+
+        res.status(500).render('auth/registro', {
+            titulo: 'Registro',
+            error: mensajeError,
+            valores: req.body ? {
+                nombre: req.body.nombre,
+                apellido: req.body.apellido,
+                correo: req.body.correo
+            } : {}
+        });
+    }
+};
 
 const actualizarUsuario = async (req, res) => {
     await usuarioServicio.actualizarUsuario(req.params.id, req.body);

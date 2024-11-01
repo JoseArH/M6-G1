@@ -1,0 +1,10 @@
+extends ../layout
+
+block content
+    .section
+        h1 ¡Registro Exitoso!
+        form.text-center
+            h2 Bienvenid@ #{nombre}
+            p Tu cuenta ha sido creada correctamente.
+            p Puedes iniciar sesión con tus credenciales.
+            a.btn(href="/auth/login") Ir a Iniciar Sesión

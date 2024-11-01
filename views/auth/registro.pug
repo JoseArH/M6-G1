@@ -1,36 +1,61 @@
-doctype html
-html
-  head
-    title Registro
-    link(rel="stylesheet", href="/css/styles.css")
-  body
+extends ../layout
+
+block content
     .container
-      h1 Registro
+        h1 Registro
 
-      if error
-        p.error #{error}
+        if error
+            .alert.alert-danger #{error}
 
-      form(action="/register" method="POST")
-        label(for="name") Nombre:
-        input(type="text" id="name" name="name" placeholder="" required)
+        form(method="POST" action="/auth/registro" enctype="application/x-www-form-urlencoded")
+            .form-group
+                label(for="nombre") Nombre:
+                input#nombre.form-control(
+                    type="text" 
+                    name="nombre"
+                    value=valores ? valores.nombre : ''
+                    required
+                )
 
-        label(for="lastname") Apellido:
-        input(type="text" id="lastname" name="lastname" placeholder="" required)
+            .form-group
+                label(for="apellido") Apellido:
+                input#apellido.form-control(
+                    type="text" 
+                    name="apellido"
+                    value=valores ? valores.apellido : ''
+                    required
+                )
 
-        label(for="email") Correo Electrónico:
-        input(type="email" id="email" name="email" pattern="/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/" placeholder="" required)
+            .form-group
+                label(for="correo") Correo Electrónico:
+                input#correo.form-control(
+                    type="email" 
+                    name="correo"
+                    value=valores ? valores.correo : ''
+                    pattern="[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}"
+                    required
+                )
 
-        label(for="password") Contraseña:
-        input(type="password" id="password" name="password" placeholder="" minlength="8" required )
+            .form-group
+                label(for="contrasena") Contraseña:
+                input#contrasena.form-control(
+                    type="password" 
+                    name="contrasena"
+                    minlength="8" 
+                    required
+                )
 
-        label(for="confirm-password") Confirmar Contraseña:
-        input(type="password" id="confirm-password" name="confirm-password" minlength="8" placeholder="" required)
+            .form-group
+                label(for="confirmar-contrasena") Confirmar Contraseña:
+                input#confirmar-contrasena.form-control(
+                    type="password" 
+                    name="confirmar-contrasena"
+                    minlength="8" 
+                    required
+                )
 
-        button(type="submit") Registrarse
+            button.btn.btn-primary(type="submit") Registrarse
 
-      p
-        | ¿Ya tienes una cuenta?
-        a(href="/auth/login") Inicia sesión aquí
-
-      footer
-        p
+        p.text-center.mt-3
+            | ¿Ya tienes una cuenta? 
+            a(href="/auth/login") Inicia sesión aquí

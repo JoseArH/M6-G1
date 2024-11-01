@@ -9,17 +9,18 @@ const obtenerUsuarioPorId = async (id) => {
   return await Usuario.findByPk(id);
 };
 
-const crearUsuario = async (datos) => {
-  const { contrasena, ...restDatos } = datos;
+const crearUsuario = async (userData) => {
+  try {
+    if (!userData.contrasena || userData.contrasena.length < 8) {
+      throw new Error('La contraseña debe tener al menos 8 caracteres');
+    }
 
-  let hashedPass = await bcrypt.hash(contrasena, 10);
-
-  const userData = {
-    ...restDatos,
-    contrasena: hashedPass,
-  };
-
-  return await Usuario.create(userData);
+    const usuario = await Usuario.create(userData);
+    return usuario;
+  } catch (error) {
+    console.error('Error en usuarioServicio.crearUsuario:', error);
+    throw error;
+  }
 };
 
 const crearComprador = async (datos) => {

@@ -1,0 +1,17 @@
+doctype html
+html
+  head
+    title #{titulo} | Mi Tienda
+    link(rel="stylesheet", href="/css/styles.css")
+  body
+    .container
+      // Botones de navegación en la esquina superior derecha
+      .top-right
+        a.btn(href="/auth/login") Iniciar Sesión
+        a.btn(href="/auth/registro") Registro
+      
+      // Este bloque será reemplazado por el contenido específico de cada vista
+      block content
+
+    footer
+      p © 2024 Mi Tienda. Todos los derechos reservados.

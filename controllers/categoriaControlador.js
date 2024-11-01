@@ -31,7 +31,7 @@ const eliminarCategoria = async (req, res) => {
 
 const actualizarCategoria = async (req, res) => {
   await categoriaServicio.actualizarCategoria(req.params.id, req.body);
-  res.redirect("/categorias");
+  res.redirect("/categorias");z
 };
 const mostrarFormularioEditarCategoria = async (req, res) => {
   const categoria = await Categoria.findByPk(req.params.id);

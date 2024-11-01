@@ -11,6 +11,10 @@ dotenv.config();
 
 const app = express();
 
+// Middleware para parsear el cuerpo de las solicitudes
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 // Configuración de vistas
 app.set('view engine', 'pug');
 app.set('views', './views');
@@ -25,10 +29,6 @@ conectarBD();
 sequelize.sync().then(() => {
   console.log("Modelos sincronizados con la base de datos.");
 });
-
-// Middleware para parsear el cuerpo de las solicitudes
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 
 // Sirviendo archivos estáticos desde la carpeta 'public'
 app.use(express.static("public"));

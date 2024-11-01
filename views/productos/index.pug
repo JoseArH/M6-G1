@@ -64,8 +64,14 @@ html
 
           .form-group
             label(for="categoria") Categoría:
-            input.form-control(type="text" name="categoria" required)
-            
+            .input-group
+              select.form-control(name="categoria" required)
+                option(value="") Seleccione una categoría
+                each categoria in categorias
+                  option(value=categoria.id) #{categoria.nombre}
+              .input-group-append
+                a.btn.btn-success(href="/categorias" target="_blank") + Nueva Categoría
+
           .form-group
             label(for="imagen") Imagen:
             input.form-control(type="file" name="imagen" id="imagen" accept="image/*")
