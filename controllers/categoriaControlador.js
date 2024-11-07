@@ -2,13 +2,20 @@ const Categoria = require("../models/Categorias");
 const categoriaServicio = require("../services/categoriaServicio");
 
 const obtenerCategorias = async (req, res) => {
-  const categorias = await categoriaServicio.obtenerTodoslasCategorias();
+  const categorias = await categoriaServicio.obtenerTodasLasCategorias();
   res.render("categorias/index", { categorias });
 };
 
 const obtenerCategoriasJson = async (req, res) => {
-  const productos = await productoServicio.obtenerTodosLosProductos();
+  const productos = await categoriaServicio.obtenerTodasLasCategorias();
   res.send(productos);
+};
+
+const obtenerCategoriaJson = async (req, res) => {
+  const categoria = await categoriaServicio.obtenerCategoriaPorId(
+    req.params.id
+  );
+  res.send(categoria);
 };
 
 const crearCategoria = async (req, res) => {
@@ -31,7 +38,8 @@ const eliminarCategoria = async (req, res) => {
 
 const actualizarCategoria = async (req, res) => {
   await categoriaServicio.actualizarCategoria(req.params.id, req.body);
-  res.redirect("/categorias");z
+  res.redirect("/categorias");
+  z;
 };
 const mostrarFormularioEditarCategoria = async (req, res) => {
   const categoria = await Categoria.findByPk(req.params.id);
@@ -49,4 +57,5 @@ module.exports = {
   actualizarCategoria,
   mostrarFormularioEditarCategoria,
   obtenerCategoriasJson,
+  obtenerCategoriaJson
 };

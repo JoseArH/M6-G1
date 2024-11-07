@@ -1,6 +1,6 @@
 const Categoria = require('../models/Categorias');
 
-const obtenerTodoslasCategorias = async () => {
+const obtenerTodasLasCategorias = async () => {
   return await Categoria.findAll();
 };
 
@@ -29,7 +29,7 @@ const eliminarCategoria = async (id) => {
 };
 
 module.exports = {
-    obtenerTodoslasCategorias,
+    obtenerTodasLasCategorias,
     obtenerCategoriaPorId,
     crearCategoria,
     actualizarCategoria,

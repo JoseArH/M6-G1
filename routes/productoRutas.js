@@ -9,7 +9,6 @@ const upload = require('../middlewares/upload');
 router.get('/shop', productoControlador.mostrarTienda);
 router.get('/', esAutenticado, productoControlador.listarProductos); // Requiere autenticación
 // Rutas protegidas para admin
-router.get('/json', esAdmin, productoControlador.obtenerProductosJson);
 router.post('/busqueda', esAdmin, productoControlador.buscarPorNombre);
 router.get('/:id', esAdmin, productoControlador.obtenerProducto);
 router.get('/:id/editar', esAdmin, productoControlador.mostrarFormularioEditarProducto);
