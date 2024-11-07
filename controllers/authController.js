@@ -23,9 +23,9 @@ const login = async (req, res) => {
         console.log('Usuario autenticado:', usuario.correo, 'Rol:', usuario.rol);
         // Redirigir según el rol
         if (usuario.rol === 'admin') {
-            res.redirect('/productos'); // Panel de administración
+            res.redirect('/admin'); // Panel de administración
         } else {
-            res.redirect('/productos/shop'); // Vista de tienda para compradores
+            res.redirect('/'); // Vista de tienda para compradores
         }
     } catch (error) {
         console.error('Error en login:', error);

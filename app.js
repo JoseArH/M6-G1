@@ -2,15 +2,9 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
 const { conectarBD, sequelize } = require("./config/db");
-const productoRutas = require("./routes/productoRutas");
-const productoRutasApi = require("./routes/productoRutasApi");
-const categoriaRutas = require("./routes/categoriaRutas");
-const categoriaRutasApi = require("./routes/categoriaRutasApi");
-const usuarioRutas = require("./routes/usuarioRuta");
-const authRutas = require("./routes/authRutas");
-const session = require('express-session');
+const session = require("express-session");
+const router = require("./routes");
 dotenv.config();
-
 const app = express();
 
 // Middlewares básicos
@@ -38,9 +32,6 @@ app.use((req, res, next) => {
 app.set("view engine", "pug");
 app.set("views", "./views");
 
-// Middleware para manejar rutas de autenticación
-app.use("/auth", authRutas);
-
 // Conectar a la base de datos
 conectarBD();
 
@@ -54,19 +45,8 @@ app.use(express.static("public"));
 
 app.use("/uploads", express.static("uploads"));
 
-// Ruta principal
-app.get("/", (req, res) => {
-  res.render("index", { titulo: "Bienvenido a la Tienda" });
-});
-
-// Rutas de la aplicación
-app.use("/productos", productoRutas); // Incluye todas las rutas de productos
-app.use("/api/productos", productoRutasApi); /* rutas api productos */
-
-app.use("/categorias", categoriaRutas);
-app.use("/api/categorias", categoriaRutasApi);
-
-app.use("/usuarios", usuarioRutas);
+// Rutas 
+app.use(router);
 
 // Configuración del puerto y servidor
 const PUERTO = process.env.PUERTO || 3000;
