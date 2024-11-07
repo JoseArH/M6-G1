@@ -1,0 +1,77 @@
+extends layout
+
+block content
+    .container.mt-4
+        // Banner o Hero Section
+        .jumbotron.text-center.bg-light
+            h1.display-4 Bienvenido a nuestra Tienda
+            p.lead Descubre nuestros productos de alta calidad
+
+        // Sección de Filtros y Búsqueda
+        .row.mb-4
+            .col-md-6
+                form(action="/productos/busqueda" method="POST")
+                    .input-group
+                        input.form-control(type="text" name="buscar" placeholder="Buscar productos...")
+                        .input-group-append
+                            button.btn.btn-primary(type="submit")
+                                i.fas.fa-search Buscar
+
+            .col-md-6
+                select.form-control#categoriaFiltro
+                    option(value="") Todas las categorías
+                    each categoria in categorias
+                        option(value=categoria.id) #{categoria.nombre}
+
+        // Grid de Productos
+        .row
+            each producto in productos
+                .col-md-4.mb-4
+                    .card.h-100
+                        if producto.imagen
+                            img.card-img-top(src=producto.imagen alt=producto.nombre)
+                        else
+                            img.card-img-top(src="/img/default-product.jpg" alt="Imagen por defecto")
+                        
+                        .card-body
+                            h5.card-title #{producto.nombre}
+                            p.card-text #{producto.descripcion}
+                            p.card-text
+                                strong.text-primary $#{producto.precio}
+                            if producto.inventario > 0
+                                p.card-text.text-success Stock disponible: #{producto.inventario}
+                            else
+                                p.card-text.text-danger Agotado
+                            
+                        .card-footer.bg-white.border-0
+                            if producto.inventario > 0
+                                button.btn.btn-primary.btn-block Agregar al carrito
+                            else
+                                button.btn.btn-secondary.btn-block(disabled) Agotado
+
+        // Paginación
+        if productos.length > 0
+            nav.mt-4
+                ul.pagination.justify-content-center
+                    li.page-item
+                        a.page-link(href="#") Anterior
+                    li.page-item.active
+                        a.page-link(href="#") 1
+                    li.page-item
+                        a.page-link(href="#") 2
+                    li.page-item
+                        a.page-link(href="#") 3
+                    li.page-item
+                        a.page-link(href="#") Siguiente
+
+block scripts
+    script(src="https://kit.fontawesome.com/your-code.js")
+    script.
+        document.getElementById('categoriaFiltro').addEventListener('change', function() {
+            const categoria = this.value;
+            if (categoria) {
+                window.location.href = `/productos?categoria=${categoria}`;
+            } else {
+                window.location.href = '/productos';
+            }
+        });

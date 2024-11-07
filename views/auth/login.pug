@@ -4,23 +4,33 @@ html
     title Login Page
     link(rel="stylesheet", href="/css/styles.css")
   body
-    .container
-      h1 Iniciar Sesión
+    .container.mt-5
+      h1.text-center Iniciar Sesión
 
       if error
-        p.error #{error}
+        .alert.alert-danger #{error}
 
-      form(action="/login" method="POST")
-        label(for="email") Correo Electrónico:
-        input(type="email" id="email" name="email" placeholder="Ingrese su correo" required)
+      form(method="POST" action="/auth/login")
+        .form-group
+          label(for="correo") Correo Electrónico:
+          input#correo.form-control(
+            type="email" 
+            name="correo"
+            required
+          )
 
-        label(for="password") Contraseña:
-        input(type="password" id="password" name="password" placeholder="Ingrese su contraseña" required)
+        .form-group
+          label(for="contrasena") Contraseña:
+          input#contrasena.form-control(
+            type="password" 
+            name="contrasena"
+            minlength="8"
+            required
+          )
+        button.btn.btn-primary.w-100(type="submit") Iniciar Sesión
 
-        button(type="submit") Iniciar Sesión
-
-      p
-        | ¿No tienes una cuenta?
+      p.text-center.mt-3
+        | ¿No tienes una cuenta? 
         a(href="/auth/registro") Regístrate aquí
 
     footer

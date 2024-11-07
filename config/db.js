@@ -1,14 +1,19 @@
 const { Sequelize } = require('sequelize');
-const dotenv = require('dotenv');
+require('dotenv').config();
 
-dotenv.config();
-
-const sequelize = new Sequelize(process.env.DB_NOMBRE, process.env.DB_USUARIO, process.env.DB_CONTRASENA, {
+const sequelize = new Sequelize({
+    database: process.env.DB_NAME,
+    username: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
   host: process.env.DB_HOST,
-  port: process.env.DB_PUERTO || 5432, // Añadimos el puerto
+    port: process.env.DB_PORT,
   dialect: 'postgres',
+    logging: false,
+    dialectOptions: {
+        // Necesario si el nombre de la base de datos tiene espacios
+        decimalNumbers: true
+    }
 });
-
 
 const conectarBD = async () => {
   try {
@@ -21,4 +26,3 @@ const conectarBD = async () => {
 };
 
 module.exports = { sequelize, conectarBD };
-

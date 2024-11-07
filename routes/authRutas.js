@@ -1,18 +1,23 @@
 const express = require('express');
 const router = express.Router();
-const usuarioControlador = require('../controllers/usuarioControlador');
+const authController = require('../controllers/authController');
+const { esAutenticado } = require('../middlewares/auth');
 
+// Rutas de autenticación
 router.get('/login', (req, res) => {
-    res.render('auth/login', { titulo: 'Login' });
+    res.render('auth/login', { titulo: 'Iniciar Sesión' });
 });
+
+router.post('/login', authController.login);
 
 router.get('/registro', (req, res) => {
     res.render('auth/registro', { titulo: 'Registro' });
 });
 
-router.post('/registro', (req, res, next) => {
-    console.log('Datos del formulario:', req.body);
-    next();
-}, usuarioControlador.crearComprador);
+router.post('/registro', authController.register);
+router.get('/logout', esAutenticado, (req, res) => {
+    req.session.destroy();
+    res.redirect('/auth/login');
+});
 
 module.exports = router;

@@ -1,5 +1,5 @@
-const Usuario = require("../models/Usuario");
-const bcrypt = require("bcrypt");
+const Usuario = require('../models/Usuario');
+const bcrypt = require('bcrypt');
 
 const obtenerTodosLosUsuarios = async () => {
   return await Usuario.findAll();
@@ -9,16 +9,28 @@ const obtenerUsuarioPorId = async (id) => {
   return await Usuario.findByPk(id);
 };
 
-const crearUsuario = async (userData) => {
-  try {
-    if (!userData.contrasena || userData.contrasena.length < 8) {
-      throw new Error('La contraseña debe tener al menos 8 caracteres');
-    }
+const crearUsuario = async (datos) => {
+    try {
+        // Verificar si el usuario ya existe
+        const existente = await Usuario.findOne({ where: { correo: datos.correo } });
+        if (existente) {
+            throw new Error('El correo ya está registrado');
+        }
 
-    const usuario = await Usuario.create(userData);
-    return usuario;
+        // Encriptar contraseña
+        const salt = await bcrypt.genSalt(10);
+        const contrasenaHash = await bcrypt.hash(datos.contrasena, salt);
+
+        console.log('Contraseña original:', datos.contrasena);
+        console.log('Contraseña hasheada:', contrasenaHash);
+
+        // Crear usuario
+        return await Usuario.create({
+            ...datos,
+            contrasena: contrasenaHash
+        });
   } catch (error) {
-    console.error('Error en usuarioServicio.crearUsuario:', error);
+        console.error('Error al crear usuario:', error);
     throw error;
   }
 };
@@ -60,6 +72,43 @@ const eliminarUsuario = async (id) => {
   return null;
 };
 
+const autenticarUsuario = async (correo, contrasena) => {
+    try {
+        console.log('Intentando autenticar usuario:', correo);
+        const usuario = await Usuario.findOne({ where: { correo } });
+        
+        if (!usuario) {
+            console.log('Usuario no encontrado');
+            return null;
+        }
+
+        console.log('Usuario encontrado:', usuario.correo);
+        console.log('Hash almacenado:', usuario.contrasena);
+        
+        const contrasenaValida = await bcrypt.compare(contrasena, usuario.contrasena);
+        console.log('Contraseña proporcionada:', contrasena);
+        console.log('Contraseña válida:', contrasenaValida);
+        
+        if (!contrasenaValida) {
+            return null;
+        }
+
+        return usuario;
+    } catch (error) {
+        console.error('Error en autenticación:', error);
+        throw error;
+    }
+};
+
+const buscarPorCorreo = async (correo) => {
+    try {
+        return await Usuario.findOne({ where: { correo } });
+    } catch (error) {
+        console.error('Error al buscar usuario:', error);
+        throw error;
+    }
+};
+
 module.exports = {
   obtenerTodosLosUsuarios,
   obtenerUsuarioPorId,
@@ -67,4 +116,6 @@ module.exports = {
   crearComprador,
   actualizarUsuario,
   eliminarUsuario,
+  autenticarUsuario,
+  buscarPorCorreo
 };
