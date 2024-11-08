@@ -10,7 +10,7 @@ const esAdmin = (req, res, next) => {
     if (req.session.user && req.session.user.perfil === 'admin') {
         next();
     } else {
-        res.redirect('/productos');
+        res.redirect('/');
     }
 };
 
