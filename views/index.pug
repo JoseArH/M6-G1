@@ -1,36 +1,40 @@
-doctype html
-html
-  head
-    title #{titulo}
-    link(rel='stylesheet', href='/css/styles.css')
-  body
-    .container
-      // Sección de bienvenida
-      h1 Bienvenido a la tienda
-      p La mejor tienda
+extends layout
 
-      // Sección de usuarios
-      .usuarios
-        h2 Crea una cuenta de usuario
-        a.btn.btn-primary(href="/usuarios") Crear Usuario
+block content
+  // Sección de bienvenida
+  .jumbotron.text-center.mt-4
+    h1.display-4 Bienvenido a la tienda
+    p.lead La mejor tienda
 
-      // Sección de productos
-      .productos
-        h2 Ver productos
-        a.btn.btn-primary(href="/productos") Ver Productos
+  .row.mt-4
+    // Sección de usuarios
+    .col-md-4
+      .card
+        .card-body
+          h2.card-title Usuarios
+          p.card-text Crea una cuenta de usuario
+          a.btn.btn-primary.btn-block(href="/usuarios") Crear Usuario
 
-              // Crear categorias
-      .productos
-        h2 Crear categoría
-        a.btn.btn-primary(href="/categorias") Crear categoría
+    // Sección de productos
+    .col-md-4
+      .card
+        .card-body
+          h2.card-title Productos
+          p.card-text Gestiona el inventario
+          a.btn.btn-primary.btn-block(href="/productos") Ver Productos
 
-      // Otras secciones de la tienda (en el futuro puedes añadir más funcionalidades aquí)
-      .destacados
-        h2 Productos destacados
+    // Crear categorias
+    .col-md-4
+      .card
+        .card-body
+          h2.card-title Categorías
+          p.card-text Administra las categorías
+          a.btn.btn-primary.btn-block(href="/categorias") Crear categoría
 
-      // Puedes agregar más secciones según lo necesites
-
-    // Enlaces de Login y Registro en una esquina superior
-    .top-right
-      a.btn(href="/auth/login") Login
-      a.btn(href="/auth/registro") Registro
+  // Otras secciones de la tienda
+  .row.mt-4
+    .col-12
+      .card
+        .card-body
+          h2.card-title.text-center Productos destacados
+          // Aquí puedes agregar el contenido de productos destacados

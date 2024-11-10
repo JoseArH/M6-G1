@@ -7,7 +7,7 @@ html
     .container
       h1.mt-5 Editar Producto
 
-      form(action=`/productos/${producto.id}/actualizar` method="POST")
+      form(action=`/productos/${producto.id}/actualizar` method="POST" enctype="multipart/form-data")
         .form-group
           label(for="nombre") Nombre:
           input.form-control(type="text" name="nombre" value=producto.nombre required)
@@ -27,6 +27,12 @@ html
         .form-group
           label(for="categoria") Categoría:
           input.form-control(type="text" name="categoria" value=producto.categoria required)
+
+        .form-group
+          label(for="imagen") Imagen:
+          if producto.imagen
+            img.img-thumbnail(src=producto.imagen alt=producto.nombre style="max-width: 100px; margin-bottom: 10px;")
+          input.form-control-file(type="file" name="imagen" accept="image/*")
 
         button.btn.btn-primary(type="submit") Actualizar Producto
 

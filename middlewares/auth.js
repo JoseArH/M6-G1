@@ -1,5 +1,5 @@
 const esAutenticado = (req, res, next) => {
-    if (req.session.user) {
+    if (req.session && req.session.user) {
         next();
     } else {
         res.redirect('/auth/login');
@@ -7,7 +7,7 @@ const esAutenticado = (req, res, next) => {
 };
 
 const esAdmin = (req, res, next) => {
-    if (req.session.user && req.session.user.perfil === 'admin') {
+    if (req.session && req.session.user && req.session.user.rol === 'admin') {
         next();
     } else {
         res.redirect('/');
@@ -15,7 +15,7 @@ const esAdmin = (req, res, next) => {
 };
 
 const esComprador = (req, res, next) => {
-    if (req.session.user && req.session.user.perfil === 'comprador') {
+    if (req.session && req.session.user && req.session.user.rol === 'comprador') {
         next();
     } else {
         res.redirect('/admin');

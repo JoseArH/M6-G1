@@ -5,7 +5,6 @@ html
     link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css")
   body
     .container
-
       section 
         // Buscar producto por nombre
         h2.mt-5 Buscar producto
@@ -40,7 +39,8 @@ html
                 td #{producto.inventario}
                 td #{producto.categoria}
                 td 
-                  a.btn.btn-info(href=`/productos/${producto.id}`) Ver Detalles
+                  a.btn.btn-info.mr-2(href=`/productos/${producto.id}`) Ver Detalles
+                  a.btn.btn-warning(href=`/productos/${producto.id}/editar`) Editar
 
       section
         // Crear un nuevo producto
@@ -78,23 +78,23 @@ html
 
           button.btn.btn-primary(type="submit") Crear Producto
 
-    // Scripts de Bootstrap, Popper.js y jQuery
-    script(src="https://code.jquery.com/jquery-3.5.1.slim.min.js")
-    script(src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js")
-    script(src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js")
+      // Scripts de Bootstrap, Popper.js y jQuery
+      script(src="https://code.jquery.com/jquery-3.5.1.slim.min.js")
+      script(src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js")
+      script(src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js")
 
-    // Script para filtrar productos por categoría
-    script.
-      document.getElementById('filtrarCategoria').addEventListener('change', function() {
-        var categoriaSeleccionada = this.value.toLowerCase();
-        var filas = document.querySelectorAll('tbody tr');
+      // Script para filtrar productos por categoría
+      script.
+        document.getElementById('filtrarCategoria').addEventListener('change', function() {
+          var categoriaSeleccionada = this.value.toLowerCase();
+          var filas = document.querySelectorAll('tbody tr');
 
-        filas.forEach(function(fila) {
-          var categoriaProducto = fila.querySelector('td:nth-child(5)').innerText.toLowerCase();
-          if (categoriaProducto === categoriaSeleccionada || categoriaSeleccionada === '') {
-            fila.style.display = ''; // Mostrar si coincide
-          } else {
-            fila.style.display = 'none'; // Ocultar si no coincide
-          }
+          filas.forEach(function(fila) {
+            var categoriaProducto = fila.querySelector('td:nth-child(5)').innerText.toLowerCase();
+            if (categoriaProducto === categoriaSeleccionada || categoriaSeleccionada === '') {
+              fila.style.display = ''; // Mostrar si coincide
+            } else {
+              fila.style.display = 'none'; // Ocultar si no coincide
+            }
+          });
         });
-      });

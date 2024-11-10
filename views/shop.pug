@@ -2,6 +2,19 @@ extends layout
 
 block content
     .container.mt-4
+        // Mensajes de error y éxito
+        if error
+            .alert.alert-danger.alert-dismissible.fade.show
+                button.close(type="button" data-dismiss="alert")
+                    span &times;
+                strong Error: 
+                | #{error}
+        if success
+            .alert.alert-success.alert-dismissible.fade.show
+                button.close(type="button" data-dismiss="alert")
+                    span &times;
+                | #{success}
+
         // Banner o Hero Section
         .jumbotron.text-center.bg-light
             h1.display-4 Bienvenido a nuestra Tienda
@@ -15,7 +28,8 @@ block content
                         input.form-control(type="text" name="buscar" placeholder="Buscar productos...")
                         .input-group-append
                             button.btn.btn-primary(type="submit")
-                                i.fas.fa-search Buscar
+                                i.fas.fa-search.mr-1
+                                | Buscar
 
             .col-md-6
                 select.form-control#categoriaFiltro
@@ -28,26 +42,55 @@ block content
             each producto in productos
                 .col-md-4.mb-4
                     .card.h-100
+                        // Imagen del producto
                         if producto.imagen
-                            img.card-img-top(src=producto.imagen alt=producto.nombre)
+                            img.card-img-top(
+                                src=producto.imagen 
+                                alt=producto.nombre
+                                style="height: 200px; object-fit: cover;"
+                            )
                         else
-                            img.card-img-top(src="/img/default-product.jpg" alt="Imagen por defecto")
+                            img.card-img-top(
+                                src="/img/default-product.jpg" 
+                                alt="Imagen por defecto"
+                                style="height: 200px; object-fit: cover;"
+                            )
                         
                         .card-body
-                            h5.card-title #{producto.nombre}
-                            p.card-text #{producto.descripcion}
-                            p.card-text
-                                strong.text-primary $#{producto.precio}
-                            if producto.inventario > 0
-                                p.card-text.text-success Stock disponible: #{producto.inventario}
-                            else
-                                p.card-text.text-danger Agotado
+                            h5.card-title.text-primary #{producto.nombre}
+                            p.card-text.text-muted #{producto.descripcion}
+                            .d-flex.justify-content-between.align-items-center.mb-2
+                                h6.card-subtitle.mb-0
+                                    strong.text-success $#{producto.precio}
+                                if producto.inventario > 0
+                                    span.badge.badge-success #{producto.inventario} disponibles
+                                else
+                                    span.badge.badge-danger Agotado
                             
-                        .card-footer.bg-white.border-0
+                        .card-footer.bg-white.border-0.pb-3
                             if producto.inventario > 0
-                                button.btn.btn-primary.btn-block Agregar al carrito
+                                form(action="/carrito/agregar" method="POST")
+                                    input(type="hidden" name="productoId" value=producto.id)
+                                    .form-row
+                                        .col-7
+                                            .input-group
+                                                .input-group-prepend
+                                                    span.input-group-text Cant.
+                                                input.form-control(
+                                                    type="number" 
+                                                    name="cantidad" 
+                                                    value="1" 
+                                                    min="1" 
+                                                    max=producto.inventario
+                                                )
+                                        .col-5
+                                            button.btn.btn-primary.btn-block(type="submit")
+                                                i.fas.fa-cart-plus.mr-1
+                                                | Agregar
                             else
-                                button.btn.btn-secondary.btn-block(disabled) Agotado
+                                button.btn.btn-secondary.btn-block(disabled) 
+                                    i.fas.fa-times-circle.mr-1
+                                    | Agotado
 
         // Paginación
         if productos.length > 0
@@ -63,10 +106,15 @@ block content
                         a.page-link(href="#") 3
                     li.page-item
                         a.page-link(href="#") Siguiente
+        else
+            .alert.alert-info.text-center.mt-4
+                i.fas.fa-info-circle.mr-2
+                | No se encontraron productos
 
 block scripts
     script(src="https://kit.fontawesome.com/your-code.js")
     script.
+        // Filtrado por categoría
         document.getElementById('categoriaFiltro').addEventListener('change', function() {
             const categoria = this.value;
             if (categoria) {
@@ -74,4 +122,23 @@ block scripts
             } else {
                 window.location.href = '/productos';
             }
+        });
+
+        // Validación de cantidad antes de enviar
+        document.querySelectorAll('form[action="/carrito/agregar"]').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                const cantidadInput = this.querySelector('input[name="cantidad"]');
+                const cantidad = parseInt(cantidadInput.value);
+                const max = parseInt(cantidadInput.getAttribute('max'));
+                
+                if (cantidad > max) {
+                    e.preventDefault();
+                    alert(`Solo hay ${max} unidades disponibles`);
+                    cantidadInput.value = max;
+                } else if (cantidad < 1) {
+                    e.preventDefault();
+                    alert('La cantidad debe ser al menos 1');
+                    cantidadInput.value = 1;
+                }
+            });
         });

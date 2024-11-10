@@ -28,13 +28,22 @@ const listarProductos = async (req, res) => {
 };
 
 const obtenerProductos = async (req, res) => {
-  const productos = await productoServicio.obtenerTodosLosProductos();
-  const categorias = await categoriaServicio.obtenerTodasLasCategorias();
-  res.render("productos/index", {
-    productos,
-    categorias,
-    terminoBusqueda: "",
-  });
+  try {
+    const productos = await productoServicio.obtenerTodosLosProductos();
+    const categorias = await categoriaServicio.obtenerTodasLasCategorias();
+    res.render("productos/index", {
+      productos,
+      categorias,
+      terminoBusqueda: "",
+      titulo: "Inventario de Productos"
+    });
+  } catch (error) {
+    console.error("Error al obtener productos:", error);
+    res.status(500).render("error", {
+      error: "Error al cargar el inventario de productos",
+      titulo: "Error"
+    });
+  }
 };
 
 const obtenerProducto = async (req, res) => {
@@ -64,8 +73,20 @@ const crearProducto = async (req, res) => {
 };
 
 const actualizarProducto = async (req, res) => {
-  await productoServicio.actualizarProducto(req.params.id, req.body);
-  res.redirect("/productos");
+  try {
+    const datosActualizados = { ...req.body };
+    
+    // Si hay una nueva imagen, agrégala a los datos actualizados
+    if (req.file) {
+      datosActualizados.imagen = `/uploads/${req.file.filename}`;
+    }
+
+    await productoServicio.actualizarProducto(req.params.id, datosActualizados);
+    res.redirect("/productos");
+  } catch (error) {
+    console.error("Error al actualizar producto:", error);
+    res.status(500).send("Error al actualizar el producto");
+  }
 };
 
 const eliminarProducto = async (req, res) => {

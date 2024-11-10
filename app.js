@@ -6,6 +6,7 @@ const session = require("express-session");
 const router = require("./routes");
 dotenv.config();
 const app = express();
+const carritoRoutes = require('./routes/carritoRoutes');
 
 // Middlewares básicos
 app.use(express.json());
@@ -42,10 +43,10 @@ sequelize.sync().then(() => {
 
 // Sirviendo archivos estáticos desde la carpeta 'public'
 app.use(express.static("public"));
-
 app.use("/uploads", express.static("uploads"));
 
-// Rutas 
+// Rutas
+app.use('/carrito', carritoRoutes);
 app.use(router);
 
 // Configuración del puerto y servidor

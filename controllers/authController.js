@@ -1,5 +1,6 @@
 // controllers/authController.js
 const usuarioServicio = require('../services/usuarioServicio');
+
 const login = async (req, res) => {
     try {
         console.log('Intento de login:', req.body);
@@ -13,20 +14,32 @@ const login = async (req, res) => {
             });
         }
 
-        // Guardar usuario en sesión
+        // Guardar usuario en sesión - cambiamos perfil por rol para mantener consistencia
         req.session.user = {
             id: usuario.id,
             email: usuario.correo,
-            perfil: usuario.rol
+            rol: usuario.rol  // Cambiado de perfil a rol
         };
 
         console.log('Usuario autenticado:', usuario.correo, 'Rol:', usuario.rol);
-        // Redirigir según el rol
-        if (usuario.rol === 'admin') {
-            res.redirect('/admin'); // Panel de administración
-        } else {
-            res.redirect('/'); // Vista de tienda para compradores
-        }
+        
+        // Asegurarnos de que la sesión se guarde antes de redirigir
+        req.session.save(err => {
+            if (err) {
+                console.error('Error al guardar la sesión:', err);
+                return res.render('auth/login', {
+                    error: 'Error al iniciar sesión',
+                    titulo: 'Iniciar Sesión'
+                });
+            }
+
+            // Redirigir según el rol
+            if (usuario.rol === 'admin') {
+                res.redirect('/admin'); // Panel de administración
+            } else {
+                res.redirect('/'); // Vista de tienda para compradores
+            }
+        });
     } catch (error) {
         console.error('Error en login:', error);
         res.render('auth/login', {
@@ -60,7 +73,17 @@ const register = async (req, res) => {
     }
 };
 
+const logout = (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error('Error al cerrar sesión:', err);
+        }
+        res.redirect('/auth/login');
+    });
+};
+
 module.exports = {
     login,
-    register
+    register,
+    logout
 };
