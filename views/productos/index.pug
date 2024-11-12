@@ -1,9 +1,6 @@
-doctype html
-html
-  head
-    title Productos
-    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css")
-  body
+extends ../layouts/admin-layout
+
+block content
     .container
       section 
         // Buscar producto por nombre
@@ -11,7 +8,7 @@ html
         form(action="/productos/busqueda" method="post" class="mt-3")
           .form-group
             label(for="buscar") Nombre:
-            input.form-control(type="text" name="buscar" value=terminoBusqueda required)
+            input.form-control(type="text" name="buscar" id="buscar" value=terminoBusqueda required)
 
           button.btn.btn-primary(type="submit") Buscar Producto
 
@@ -66,7 +63,7 @@ html
             label(for="categoria") Categoría:
             .input-group
               select.form-control(name="categoria" required)
-                option(value="") Seleccione una categoría
+                option(value="" disabled) Seleccione una categoría
                 each categoria in categorias
                   option(value=categoria.id) #{categoria.nombre}
               .input-group-append
@@ -78,10 +75,7 @@ html
 
           button.btn.btn-primary(type="submit") Crear Producto
 
-      // Scripts de Bootstrap, Popper.js y jQuery
-      script(src="https://code.jquery.com/jquery-3.5.1.slim.min.js")
-      script(src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js")
-      script(src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js")
+   
 
       // Script para filtrar productos por categoría
       script.
@@ -98,3 +92,5 @@ html
             }
           });
         });
+
+

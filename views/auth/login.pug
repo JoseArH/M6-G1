@@ -1,9 +1,6 @@
-doctype html
-html
-  head
-    title Login Page
-    link(rel="stylesheet", href="/css/styles.css")
-  body
+extends ../layout
+
+block content
     .container.mt-5
       h1.text-center Iniciar Sesión
 
@@ -33,5 +30,3 @@ html
         | ¿No tienes una cuenta? 
         a(href="/auth/registro") Regístrate aquí
 
-    footer
-      //p © 2024 Tu Tienda Online. Todos los derechos reservados.

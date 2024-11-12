@@ -1,9 +1,6 @@
-doctype html
-html
-    head
-        title Búsqueda productos
-        link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css")
-    body
+extends ../layouts/admin-layout
+
+block content
         .container
 
             section 
@@ -29,7 +26,3 @@ html
                     else if terminoBusqueda
                         .alert.alert-info No se encontraron productos que coincidan con la búsqueda
 
-    // Scripts de Bootstrap, Popper.js y jQuery
-    script(src="https://code.jquery.com/jquery-3.5.1.slim.min.js")
-    script(src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js")
-    script(src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js")

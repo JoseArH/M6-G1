@@ -2,31 +2,6 @@ const categoriaServicio = require("../services/categoriaServicio");
 const productoServicio = require("../services/productoServicio");
 const Producto = require("../models/Producto");
 
-const listarProductos = async (req, res) => {
-  try {
-    // Si es admin, mostrar panel de administración, si no, redirigir a la tienda
-    if (req.session.user && req.session.user.perfil === "admin") {
-      const [productos, categorias] = await Promise.all([
-        productoServicio.obtenerTodosLosProductos(),
-        categoriaServicio.obtenerTodasLasCategorias(),
-      ]);
-      res.render("productos/admin", {
-        productos,
-        categorias,
-        titulo: "Gestión de Inventario",
-      });
-    } else {
-      res.redirect("/productos/shop");
-    }
-  } catch (error) {
-    console.error("Error al listar productos:", error);
-    res.status(500).render("error", {
-      error: "Error al cargar productos",
-      titulo: "Error",
-    });
-  }
-};
-
 const obtenerProductos = async (req, res) => {
   try {
     const productos = await productoServicio.obtenerTodosLosProductos();
@@ -35,13 +10,13 @@ const obtenerProductos = async (req, res) => {
       productos,
       categorias,
       terminoBusqueda: "",
-      titulo: "Inventario de Productos"
+      titulo: "Inventario de Productos",
     });
   } catch (error) {
     console.error("Error al obtener productos:", error);
     res.status(500).render("error", {
       error: "Error al cargar el inventario de productos",
-      titulo: "Error"
+      titulo: "Error",
     });
   }
 };
@@ -75,7 +50,7 @@ const crearProducto = async (req, res) => {
 const actualizarProducto = async (req, res) => {
   try {
     const datosActualizados = { ...req.body };
-    
+
     // Si hay una nueva imagen, agrégala a los datos actualizados
     if (req.file) {
       datosActualizados.imagen = `/uploads/${req.file.filename}`;
@@ -96,10 +71,12 @@ const eliminarProducto = async (req, res) => {
 
 const mostrarFormularioEditarProducto = async (req, res) => {
   const producto = await Producto.findByPk(req.params.id);
+  const categorias = await categoriaServicio.obtenerTodasLasCategorias();
+
   if (!producto) {
     return res.status(404).send("Producto no encontrado");
   }
-  res.render("productos/editarProducto", { producto });
+  res.render("productos/editarProducto", { producto , categorias});
 };
 
 const buscarPorNombre = async (req, res) => {
@@ -111,7 +88,7 @@ const buscarPorNombre = async (req, res) => {
         error: "Por favor ingrese un término de búsqueda",
         productos: [],
       });
-
+    } else {
       const productos = await productoServicio.buscarPorNombre(terminoBusqueda);
       res.render("productos/busqueda", {
         productos,
@@ -167,7 +144,6 @@ const mostrarTienda = async (req, res) => {
 };
 
 module.exports = {
-  listarProductos,
   obtenerProductos,
   obtenerProducto,
   crearProducto,

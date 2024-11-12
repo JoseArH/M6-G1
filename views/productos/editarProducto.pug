@@ -1,9 +1,6 @@
-doctype html
-html
-  head
-    title Editar Producto
-    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css")
-  body
+extends ../layouts/admin-layout
+
+block content
     .container
       h1.mt-5 Editar Producto
 
@@ -25,10 +22,14 @@ html
           input.form-control(type="number" name="inventario" value=producto.inventario required)
 
         .form-group
-          label(for="categoria") Categoría:
-          input.form-control(type="text" name="categoria" value=producto.categoria required)
+            label(for="categoria") Categoría:
+            .input-group
+              select.form-control(name="categoria" required)
+                option(value="" disabled) Seleccione una categoría
+                each categoria in categorias
+                  option(value=categoria.id) #{categoria.nombre}
 
-        .form-group
+        .form-group.p-0
           label(for="imagen") Imagen:
           if producto.imagen
             img.img-thumbnail(src=producto.imagen alt=producto.nombre style="max-width: 100px; margin-bottom: 10px;")

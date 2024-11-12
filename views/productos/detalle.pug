@@ -1,9 +1,6 @@
-doctype html
-html
-  head
-    title #{producto.nombre}
-    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css")
-  body
+extends ../layouts/admin-layout
+
+block content
     .container
       .row.mt-5
         .col-md-8.offset-md-2
@@ -38,13 +35,9 @@ html
               .row.mt-3
                 .col-md-6
                   // Formulario para eliminar producto
-                  form(action=`/productos/${producto.id}/eliminar` method="POST")
+                  form(action=`/productos/${producto.id}/eliminar` method="POST").p-0
                     button.btn.btn-danger(type="submit") Eliminar Producto
 
                 .col-md-6
                   // Formulario para actualizar producto
                   a.btn.btn-primary(href=`/productos/${producto.id}/editar` method="POST") Actualizar Producto
-
-    script(src="https://code.jquery.com/jquery-3.5.1.slim.min.js")
-    script(src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js")
-    script(src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js")
