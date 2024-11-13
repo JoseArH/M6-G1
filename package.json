@@ -19,6 +19,7 @@
     "pg-hstore": "^2.3.4",
     "pug": "^3.0.3",
     "sequelize": "^6.37.5",
+    "transbank-sdk": "^5.0.0",
     "uuid": "^10.0.0"
   }
 }

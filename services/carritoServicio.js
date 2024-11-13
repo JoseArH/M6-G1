@@ -70,9 +70,14 @@ const eliminarDelCarrito = async (id, usuarioId) => {
     });
 };
 
+// Añadir esta línea para mantener la compatibilidad con el código anterior
+const obtenerCarrito = obtenerCarritoPorUsuario;
+
 module.exports = {
     obtenerCarritoPorUsuario,
+    obtenerCarrito,
     agregarAlCarrito,
     eliminarDelCarrito,
-    actualizarCantidad
+    actualizarCantidad,
+    verificarInventario
 };

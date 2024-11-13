@@ -41,7 +41,8 @@ block content
                 .card-body
                     h3.text-right Total: $#{total.toFixed(2)}
                     .text-right.mt-3
-                        button.btn.btn-success.btn-lg(onclick="alert('Funcionalidad de pago pendiente')") Proceder al Pago
+                        a.btn.btn-success.btn-lg(href="/webpay_plus/init") Pagar con WebPay Plus
+
         else
             .alert.alert-info.mt-4
                 p No hay productos en tu carrito

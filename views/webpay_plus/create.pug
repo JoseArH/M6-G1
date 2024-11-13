@@ -1,0 +1,10 @@
+extends ../layout
+
+block content
+  .container
+    h1.mt-4 Iniciar Pago con WebPay Plus
+    p Orden de compra: #{buyOrder}
+    p Monto: $#{amount}
+    form(action=url method="POST")
+      input(type="hidden" name="token_ws" value=token)
+      button.btn.btn-primary(type="submit") Pagar con WebPay Plus

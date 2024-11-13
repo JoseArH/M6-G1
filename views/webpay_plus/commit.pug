@@ -1,0 +1,20 @@
+extends ../layout
+
+block content
+  .container
+    h1.mt-4 Resultado de la Transacción
+    if commitResponse.status === 'AUTHORIZED'
+      h2.text-success Pago Exitoso
+      p Tu pago ha sido procesado correctamente.
+    else
+      h2.text-danger Pago Fallido
+      p Lo sentimos, ha ocurrido un error en el proceso de pago.
+    
+    h3 Detalles de la transacción:
+    ul
+      li Orden de compra: #{commitResponse.buy_order}
+      li Monto: $#{commitResponse.amount}
+      li Estado: #{commitResponse.status}
+      li Código de autorización: #{commitResponse.authorization_code}
+    
+    a.btn.btn-primary(href="/") Volver a la tienda

@@ -7,6 +7,8 @@ const router = require("./routes");
 dotenv.config();
 const app = express();
 const carritoRoutes = require('./routes/carritoRoutes');
+const webpayRoutes = require("./routes/webpay_plus");
+
 
 // Middlewares básicos
 app.use(express.json());
@@ -48,6 +50,11 @@ app.use("/uploads", express.static("uploads"));
 // Rutas
 app.use('/carrito', carritoRoutes);
 app.use(router);
+app.use("/webpay_plus", webpayRoutes);
+
+//WebPay
+app.use("/webpay_plus", webpayRoutes);
+
 
 // Configuración del puerto y servidor
 const PUERTO = process.env.PUERTO || 3000;
