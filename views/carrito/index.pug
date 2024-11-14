@@ -22,20 +22,21 @@ block content
                                 span #{item.Producto.nombre}
                             td $#{item.Producto.precio}
                             td
-                                form.d-inline(action=`/carrito/actualizar/${item.id}` method="POST")
-                                    input.form-control.form-control-sm(
-                                        type="number"
-                                        name="cantidad"
-                                        value=item.cantidad
-                                        min="1"
-                                        style="width: 70px"
-                                        onchange="this.form.submit()"
-                                    )
+                                form.d-inline.cantidad-form(action=`/carrito/actualizar/${item.id}` method="POST")
+                                    .input-group.input-group-sm
+                                        input.form-control.cantidad-input(
+                                            type="number"
+                                            name="cantidad"
+                                            value=item.cantidad
+                                            min="1"
+                                            onchange="this.form.submit()"
+                                        )
                             td $#{(item.Producto.precio * item.cantidad).toFixed(2)}
                             td
                                 form.d-inline(action=`/carrito/eliminar/${item.id}` method="POST")
                                     button.btn.btn-danger.btn-sm(type="submit")
-                                        i.fas.fa-trash Eliminar
+                                        i.fas.fa-trash 
+                                        span.ml-1 Eliminar
             
             .card.mt-4
                 .card-body
