@@ -1,0 +1,41 @@
+const { Resend } = require('resend');
+require('dotenv').config();
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+const enviarCorreoConfirmacion = async (destinatario, detallesCompra) => {
+    const { orderNumber, total, detalles } = detallesCompra;
+
+    const tmlContent = `
+        <h2>Confirmación de Compra</h2>
+        <p>Gracias por tu compra en nuestra tienda.</p>
+        <h3>Detalles de la Orden:</h3>
+        <p><strong>Número de Orden:</strong> ${orderNumber}</p>
+        <p><strong>Total:</strong> $${total}</p>
+        <h3>Productos:</h3>
+        <ul>
+            ${detalles.map(item => `
+                <li>${item.producto} - Cantidad: ${item.cantidad} - Precio: $${item.precio}</li>
+            `).join('')}
+        </ul>
+        <p>Gracias por tu preferencia.</p>
+    `;
+
+    try {
+        const data = await resend.emails.send({
+            from: 'La tiendita <onboarding@resend.dev>',
+            to: destinatario,
+            subject: 'Confirmación de tu compra',
+            html: htmlContent
+        });
+        console.log('Correo enviado exitosamente a:', destinatario);
+        return data;
+    } catch (error) {
+        console.error('Error al enviar correo:', error);
+        throw error;
+    }
+};
+
+module.exports = {
+    enviarCorreoConfirmacion
+};

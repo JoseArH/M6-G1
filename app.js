@@ -1,14 +1,14 @@
+require('dotenv').config();
+
 const express = require("express");
 const cookieParser = require("cookie-parser");
-const dotenv = require("dotenv");
 const { conectarBD, sequelize } = require("./config/db");
 const session = require("express-session");
 const router = require("./routes");
-dotenv.config();
-const app = express();
 const carritoRoutes = require('./routes/carritoRoutes');
 const webpayRoutes = require("./routes/webpay_plus");
 
+const app = express();
 
 // Middlewares básicos
 app.use(express.json());
@@ -21,7 +21,7 @@ app.use(
     secret: process.env.SESSION_SECRET || "una_clave_secreta_temporal",
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false },
+    cookie: { secure: process.env.NODE_ENV === 'production' },
   })
 );
 
@@ -38,30 +38,22 @@ app.set("views", "./views");
 // Conectar a la base de datos
 conectarBD();
 
-// Sincronizar modelos con la base de datos
-sequelize.sync().then(() => {
-  console.log("Modelos sincronizados con la base de datos.");
-});
-
 // Sirviendo archivos estáticos desde la carpeta 'public'
 app.use(express.static("public"));
 app.use("/uploads", express.static("uploads"));
 
 // Rutas
 app.use('/carrito', carritoRoutes);
+app.use("/webpay_plus", webpayRoutes);
 app.use(router);
-app.use("/webpay_plus", webpayRoutes);
-
-//WebPay
-app.use("/webpay_plus", webpayRoutes);
-
 
 // Configuración del puerto y servidor
 const PUERTO = process.env.PUERTO || 3000;
+
 sequelize
   .sync()
   .then(() => {
-    console.log("Base de datos conectada");
+    console.log("Base de datos conectada y modelos sincronizados");
     app.listen(PUERTO, () => {
       console.log(`Servidor corriendo en http://localhost:${PUERTO}`);
     });
