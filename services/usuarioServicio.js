@@ -24,7 +24,6 @@ const crearUsuario = async (datos) => {
         console.log('Contraseña original:', datos.contrasena);
         console.log('Contraseña hasheada:', contrasenaHash);
 
-        // Crear usuario
         return await Usuario.create({
             ...datos,
             contrasena: contrasenaHash

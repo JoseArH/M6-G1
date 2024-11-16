@@ -1,50 +1,128 @@
 extends ../layout
 
 block content
-    .container
-        h1.mt-4 Mi Carrito de Compras
-        
+    .container.py-5
+        // Encabezado del carrito
+        .d-flex.justify-content-between.align-items-center.mb-4
+            h1.h2.mb-0
+                i.fas.fa-shopping-cart.me-2.text-primary
+                | Mi Carrito de Compras
+            a.btn.btn-outline-primary(href="/productos")
+                i.fas.fa-arrow-left.me-2
+                | Seguir Comprando
+
         if items && items.length > 0
-            table.table.mt-4
-                thead
-                    tr
-                        th Producto
-                        th Precio
-                        th Cantidad
-                        th Total
-                        th Acciones
-                tbody
-                    each item in items
-                        tr
-                            td
-                                if item.Producto.imagen
-                                    img.img-thumbnail.mr-2(src=item.Producto.imagen alt=item.Producto.nombre style="max-width: 50px")
-                                span #{item.Producto.nombre}
-                            td $#{item.Producto.precio}
-                            td
-                                form.d-inline.cantidad-form(action=`/carrito/actualizar/${item.id}` method="POST")
-                                    .input-group.input-group-sm
-                                        input.form-control.cantidad-input(
-                                            type="number"
-                                            name="cantidad"
-                                            value=item.cantidad
-                                            min="1"
-                                            onchange="this.form.submit()"
-                                        )
-                            td $#{(item.Producto.precio * item.cantidad).toFixed(2)}
-                            td
-                                form.d-inline(action=`/carrito/eliminar/${item.id}` method="POST")
-                                    button.btn.btn-danger.btn-sm(type="submit")
-                                        i.fas.fa-trash 
-                                        span.ml-1 Eliminar
-            
-            .card.mt-4
-                .card-body
-                    h3.text-right Total: $#{total.toFixed(2)}
-                    .text-right.mt-3
-                        a.btn.btn-success.btn-lg(href="/webpay_plus/init") Pagar con WebPay Plus
+            .row.g-4
+                // Lista de productos
+                .col-lg-8
+                    .card.border-0.shadow-sm
+                        .card-body.p-4
+                            each item, index in items
+                                .row.align-items-center.mb-4(class=index !== items.length - 1 ? 'border-bottom pb-4' : '')
+                                    // Imagen y nombre del producto
+                                    .col-md-6.d-flex.align-items-center
+                                        if item.Producto.imagen
+                                            img.rounded-3.me-3(
+                                                src=item.Producto.imagen 
+                                                alt=item.Producto.nombre 
+                                                style="width: 80px; height: 80px; object-fit: cover;"
+                                            )
+                                        .product-details
+                                            h5.mb-1 #{item.Producto.nombre}
+                                            //- Removemos la línea del SKU que causaba el error
+                                    
+                                    // Precio unitario
+                                    .col-md-2.text-center
+                                        .small.text-muted Precio unitario
+                                        .fw-bold $#{item.Producto.precio}
+                                    
+                                    // Control de cantidad
+                                    .col-md-2
+                                        form.cantidad-form(action=`/carrito/actualizar/${item.id}` method="POST")
+                                            .input-group.input-group-sm.shadow-sm.rounded
+                                                button.btn.btn-outline-secondary(
+                                                    type="button"
+                                                    onclick="decrementQuantity(this)"
+                                                ) -
+                                                input.form-control.text-center.border-0(
+                                                    type="number"
+                                                    name="cantidad"
+                                                    value=item.cantidad
+                                                    min="1"
+                                                    onchange="this.form.submit()"
+                                                )
+                                                button.btn.btn-outline-secondary(
+                                                    type="button"
+                                                    onclick="incrementQuantity(this)"
+                                                ) +
+                                    
+                                    // Subtotal y eliminar
+                                    .col-md-2.text-end
+                                        .fw-bold.mb-2 $#{(item.Producto.precio * item.cantidad).toFixed(2)}
+                                        form.d-inline(action=`/carrito/eliminar/${item.id}` method="POST")
+                                            button.btn.btn-link.text-danger.p-0.border-0(
+                                                type="submit"
+                                                title="Eliminar producto"
+                                            )
+                                                i.fas.fa-trash-alt
+                
+                // Resumen de compra
+                .col-lg-4
+                    .card.border-0.shadow-sm.sticky-top(style="top: 2rem;")
+                        .card-body.p-4
+                            h5.card-title.mb-4 Resumen de Compra
+                            
+                            .d-flex.justify-content-between.mb-3
+                                span.text-muted Subtotal
+                                span.fw-bold $#{total.toFixed(2)}
+                            
+                            .d-flex.justify-content-between.mb-3
+                                span.text-muted Envío
+                                span.text-success Gratis
+                            
+                            hr.my-4
+                            
+                            .d-flex.justify-content-between.mb-4
+                                span.h5.mb-0 Total
+                                span.h5.mb-0 $#{total.toFixed(2)}
+                            
+                            a.btn.btn-primary.w-100.py-3(href="/webpay_plus/init")
+                                i.fab.fa-cc-visa.me-2
+                                | Pagar con WebPay Plus
+                            
+                            .text-center.mt-3
+                                small.text-muted Transacción segura con SSL
+                                .mt-2
+                                    i.fas.fa-lock.text-muted.me-2
+                                    i.fab.fa-cc-visa.text-muted.me-2
+                                    i.fab.fa-cc-mastercard.text-muted.me-2
+                                    i.fab.fa-cc-amex.text-muted
 
         else
-            .alert.alert-info.mt-4
-                p No hay productos en tu carrito
-                a.btn.btn-primary(href="/productos") Ir a la Tienda
+            .text-center.py-5
+                .mb-4
+                    i.fas.fa-shopping-cart.fa-4x.text-muted
+                h2.mb-3 Tu carrito está vacío
+                p.text-muted.mb-4 ¡Agrega productos y comienza a comprar!
+                a.btn.btn-primary.btn-lg(href="/productos")
+                    i.fas.fa-store.me-2
+                    | Explorar Productos
+
+block scripts
+    script.
+        // Mejorado el manejo de cantidad
+        function incrementQuantity(button) {
+            const input = button.parentNode.querySelector('input');
+            const currentValue = parseInt(input.value);
+            input.value = currentValue + 1;
+            input.dispatchEvent(new Event('change'));
+        }
+
+        function decrementQuantity(button) {
+            const input = button.parentNode.querySelector('input');
+            const currentValue = parseInt(input.value);
+            if (currentValue > 1) {
+                input.value = currentValue - 1;
+                input.dispatchEvent(new Event('change'));
+            }
+        }

@@ -1,81 +1,89 @@
 extends layout
 
 block content
-    .container.mt-4
-        // Mensajes de error y éxito
-        if error
-            .alert.alert-danger.alert-dismissible.fade.show
-                button.close(type="button" data-dismiss="alert")
-                    span &times;
-                strong Error: 
-                | #{error}
-        if success
-            .alert.alert-success.alert-dismissible.fade.show
-                button.close(type="button" data-dismiss="alert")
-                    span &times;
-                | #{success}
+    .container.mt-5.pt-4
+        // Alertas
+        if error || success
+            .row.mb-4
+                .col-12
+                    if error
+                        .alert.alert-danger.alert-dismissible.fade.show
+                            button.btn-close(type="button" data-bs-dismiss="alert" aria-label="Close")
+                            i.fas.fa-exclamation-circle.me-2
+                            | #{error}
+                    if success
+                        .alert.alert-success.alert-dismissible.fade.show
+                            button.btn-close(type="button" data-bs-dismiss="alert" aria-label="Close")
+                            i.fas.fa-check-circle.me-2
+                            | #{success}
 
-        // Banner o Hero Section
-        .jumbotron.text-center.bg-light
-            h1.display-4 Bienvenido a La tiendita
-            p.lead Descubre nuestros productos de alto precio, porque aqui se gasta
+        // Hero Section
+        .hero-section.text-center.mb-5.py-5.rounded-4
+            .container.position-relative
+                h1.display-4.fw-bold.mb-3 Bienvenido a La tiendita
+                p.lead.mb-4.text-muted Descubre nuestros productos de alto precio, porque aqui se gasta
 
-        // Sección de Filtros y Búsqueda
-        .row.mb-4
-            .col-md-6
-                form(action="/productos/busqueda" method="POST")
-                    .input-group
-                        input.form-control(type="text" name="buscar" placeholder="Buscar productos...")
-                        .input-group-append
-                            button.btn.btn-primary(type="submit")
-                                i.fas.fa-search.mr-1
-                                | Buscar
-
-            .col-md-6
-                select.form-control#categoriaFiltro
-                    option(value="") Todas las categorías
+        // Filtros y Búsqueda
+        .row.g-4.mb-5
+            .col-md-8
+                form.search-form(action="/productos/busqueda" method="POST")
+                    .input-group.shadow-sm
+                        input.form-control(
+                            type="text" 
+                            name="buscar" 
+                            placeholder="¿Qué estás buscando?"
+                            aria-label="Búsqueda de productos"
+                        )
+                        button.btn.btn-primary(type="submit")
+                            i.fas.fa-search.me-2
+                            | Buscar
+            .col-md-4
+                select.form-select.shadow-sm#categoriaFiltro
+                    option(value="" selected) Todas las categorías
                     each categoria in categorias
                         option(value=categoria.id) #{categoria.nombre}
 
         // Grid de Productos
-        .row
+        .row.row-cols-1.row-cols-md-2.row-cols-lg-3.g-4#productos
             each producto in productos
-                .col-md-4.mb-4
-                    .card.h-100
-                        // Imagen del producto
-                        if producto.imagen
-                            img.card-img-top(
-                                src=producto.imagen 
-                                alt=producto.nombre
-                                style="height: 200px; object-fit: cover;"
-                            )
-                        else
-                            img.card-img-top(
-                                src="/img/default-product.jpg" 
-                                alt="Imagen por defecto"
-                                style="height: 200px; object-fit: cover;"
-                            )
+                .col
+                    .card.h-100.product-card
+                        .card-img-wrapper.position-relative
+                            if producto.inventario <= 5 && producto.inventario > 0
+                                .badge.badge-stock.bg-warning.text-dark
+                                    i.fas.fa-exclamation-triangle.me-1
+                                    | Últimas unidades
+                            if producto.inventario === 0
+                                .badge.badge-stock.bg-danger.text-white
+                                    i.fas.fa-times-circle.me-1
+                                    | Agotado
+                            .image-container.ratio(style="--bs-aspect-ratio: 75%")
+                                img.product-image(
+                                    src=producto.imagen || "/img/default-product.jpg"
+                                    alt=producto.nombre
+                                    style="object-fit: cover; width: 90%; height: 100%;"
+                                )
                         
                         .card-body
-                            h5.card-title.text-primary #{producto.nombre}
-                            p.card-text.text-muted #{producto.descripcion}
-                            .d-flex.justify-content-between.align-items-center.mb-2
-                                h6.card-subtitle.mb-0
-                                    strong.text-success $#{producto.precio}
+                            h5.card-title.fw-bold.mb-3 #{producto.nombre}
+                            p.card-text.text-muted.small #{producto.descripcion}
+                            .d-flex.justify-content-between.align-items-center.mb-3
+                                .price-tag
+                                    span.text-muted.small Precio
+                                    .price-amount $#{producto.precio}
                                 if producto.inventario > 0
-                                    span.badge.badge-success #{producto.inventario} disponibles
-                                else
-                                    span.badge.badge-danger Agotado
-                            
-                        .card-footer.bg-white.border-0.pb-3
+                                    span.badge.bg-success-subtle.text-success
+                                        i.fas.fa-check-circle.me-1
+                                        | #{producto.inventario} disponibles
+
+                        .card-footer.border-0.p-3
                             if producto.inventario > 0
-                                form(action="/carrito/agregar" method="POST")
+                                form.add-to-cart-form(action="/carrito/agregar" method="POST")
                                     input(type="hidden" name="productoId" value=producto.id)
-                                    .form-row
-                                        .col-7
-                                            .input-group
-                                                .input-group-prepend
-                                                    span.input-group-text Cant.
+                                    .row.g-2
+                                        .col-5
+                                            .input-group.input-group-sm
+                                                span.input-group-text Cant.
                                                 input.form-control(
                                                     type="number" 
                                                     name="cantidad" 
@@ -83,21 +91,22 @@ block content
                                                     min="1" 
                                                     max=producto.inventario
                                                 )
-                                        .col-5
-                                            button.btn.btn-primary.btn-block(type="submit")
-                                                i.fas.fa-cart-plus.mr-1
+                                        .col-7
+                                            button.btn.btn-primary.w-100(type="submit")
+                                                i.fas.fa-cart-plus.me-2
                                                 | Agregar
                             else
-                                button.btn.btn-secondary.btn-block(disabled) 
-                                    i.fas.fa-times-circle.mr-1
+                                button.btn.btn-secondary.w-100(disabled) 
+                                    i.fas.fa-times-circle.me-2
                                     | Agotado
 
         // Paginación
         if productos.length > 0
-            nav.mt-4
+            nav.mt-5(aria-label="Navegación de páginas")
                 ul.pagination.justify-content-center
                     li.page-item
-                        a.page-link(href="#") Anterior
+                        a.page-link(href="#" aria-label="Anterior")
+                            i.fas.fa-chevron-left
                     li.page-item.active
                         a.page-link(href="#") 1
                     li.page-item
@@ -105,40 +114,12 @@ block content
                     li.page-item
                         a.page-link(href="#") 3
                     li.page-item
-                        a.page-link(href="#") Siguiente
+                        a.page-link(href="#" aria-label="Siguiente")
+                            i.fas.fa-chevron-right
         else
-            .alert.alert-info.text-center.mt-4
-                i.fas.fa-info-circle.mr-2
+            .alert.alert-info.text-center.mt-5
+                i.fas.fa-info-circle.me-2
                 | No se encontraron productos
 
 block scripts
-    script(src="https://kit.fontawesome.com/your-code.js")
-    script.
-        // Filtrado por categoría
-        document.getElementById('categoriaFiltro').addEventListener('change', function() {
-            const categoria = this.value;
-            if (categoria) {
-                window.location.href = `/productos?categoria=${categoria}`;
-            } else {
-                window.location.href = '/productos';
-            }
-        });
-
-        // Validación de cantidad antes de enviar
-        document.querySelectorAll('form[action="/carrito/agregar"]').forEach(form => {
-            form.addEventListener('submit', function(e) {
-                const cantidadInput = this.querySelector('input[name="cantidad"]');
-                const cantidad = parseInt(cantidadInput.value);
-                const max = parseInt(cantidadInput.getAttribute('max'));
-                
-                if (cantidad > max) {
-                    e.preventDefault();
-                    alert(`Solo hay ${max} unidades disponibles`);
-                    cantidadInput.value = max;
-                } else if (cantidad < 1) {
-                    e.preventDefault();
-                    alert('La cantidad debe ser al menos 1');
-                    cantidadInput.value = 1;
-                }
-            });
-        });
+    script(src="/js/shop.js")

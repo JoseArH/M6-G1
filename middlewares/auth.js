@@ -1,6 +1,6 @@
 const esAutenticado = (req, res, next) => {
     if (req.session && req.session.user) {
-        req.user = req.session.user; // Añade esta línea
+        req.user = req.session.user;
         next();
     } else {
         res.redirect('/auth/login');

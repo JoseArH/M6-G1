@@ -29,7 +29,7 @@ const obtenerProducto = async (req, res) => {
 const crearProducto = async (req, res) => {
   try {
     const { nombre, descripcion, precio, inventario, categoria } = req.body;
-    const imagen = req.file ? `/uploads/${req.file.filename}` : null; // Modificar para incluir /uploads/
+    const imagen = req.file ? `/uploads/${req.file.filename}` : null;
 
     await productoServicio.crearProducto({
       nombre,
@@ -51,7 +51,6 @@ const actualizarProducto = async (req, res) => {
   try {
     const datosActualizados = { ...req.body };
 
-    // Si hay una nueva imagen, agrégala a los datos actualizados
     if (req.file) {
       datosActualizados.imagen = `/uploads/${req.file.filename}`;
     }

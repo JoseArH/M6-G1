@@ -17,9 +17,9 @@ router.get("/admin", esAdmin, (req, res) => {
 // Rutas de autenticación
 router.use("/auth", authRutas);
 
-// Rutas de productos (algunas requieren autenticación)
+// Rutas de productos (requieren autenticación)
 router.use("/productos", productoRutas);
-router.use("/api/productos", productoRutasApi); /* rutas api productos */
+router.use("/api/productos", productoRutasApi);
 
 // Rutas de categorías (requieren autenticación)
 router.use("/categorias", esAutenticado, categoriaRutas);

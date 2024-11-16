@@ -1,61 +1,142 @@
+//- registro.pug
 extends ../layout
 
 block content
-    .container
-        h1 Registro
+    .container.py-5
+        .row.justify-content-center
+            .col-md-8.col-lg-6
+                .card.border-0.shadow-lg
+                    .card-body.p-5
+                        .text-center.mb-4
+                            i.fas.fa-user-plus.fa-3x.text-primary
+                            h1.h3.mt-3.font-weight-bold Crear Cuenta
+                            p.text-muted Únete a nuestra comunidad
 
-        if error
-            .alert.alert-danger #{error}
+                        if error
+                            .alert.alert-danger.alert-dismissible.fade.show
+                                i.fas.fa-exclamation-circle.me-2
+                                | #{error}
+                                button.btn-close(type="button" data-bs-dismiss="alert")
 
-        form(method="POST" action="/auth/registro" enctype="application/x-www-form-urlencoded").p-0
-            .form-group
-                label(for="nombre") Nombre:
-                input#nombre.form-control(
-                    type="text" 
-                    name="nombre"
-                    value=valores ? valores.nombre : ''
-                    required
-                )
+                        form.needs-validation(
+                            method="POST" 
+                            action="/auth/registro" 
+                            enctype="application/x-www-form-urlencoded"
+                            novalidate
+                        )
+                            .row.g-4
+                                .col-md-6
+                                    label.form-label(for="nombre")
+                                        i.fas.fa-user.me-2
+                                        | Nombre
+                                    input#nombre.form-control(
+                                        type="text"
+                                        name="nombre"
+                                        value=valores ? valores.nombre : ''
+                                        placeholder="Tu nombre"
+                                        required
+                                    )
 
-            .form-group
-                label(for="apellido") Apellido:
-                input#apellido.form-control(
-                    type="text" 
-                    name="apellido"
-                    value=valores ? valores.apellido : ''
-                    required
-                )
+                                .col-md-6
+                                    label.form-label(for="apellido")
+                                        i.fas.fa-user.me-2
+                                        | Apellido
+                                    input#apellido.form-control(
+                                        type="text"
+                                        name="apellido"
+                                        value=valores ? valores.apellido : ''
+                                        placeholder="Tu apellido"
+                                        required
+                                    )
 
-            .form-group
-                label(for="correo") Correo Electrónico:
-                input#correo.form-control(
-                    type="email" 
-                    name="correo"
-                    value=valores ? valores.correo : ''
-                    pattern="[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}"
-                    required
-                )
+                            .mb-4.mt-4
+                                label.form-label(for="correo")
+                                    i.fas.fa-envelope.me-2
+                                    | Correo Electrónico
+                                input#correo.form-control(
+                                    type="email"
+                                    name="correo"
+                                    value=valores ? valores.correo : ''
+                                    placeholder="ejemplo@correo.com"
+                                    pattern="[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}"
+                                    required
+                                )
 
-            .form-group
-                label(for="contrasena") Contraseña:
-                input#contrasena.form-control(
-                    type="password" 
-                    name="contrasena"
-                    minlength="8" 
-                    required
-                )
+                            .mb-4
+                                label.form-label(for="contrasena")
+                                    i.fas.fa-lock.me-2
+                                    | Contraseña
+                                .input-group
+                                    input#contrasena.form-control.border-end-0(
+                                        type="password"
+                                        name="contrasena"
+                                        placeholder="Mínimo 8 caracteres"
+                                        minlength="8"
+                                        required
+                                    )
+                                    button.input-group-text.bg-white.border-start-0.btn-toggle-password(
+                                        type="button"
+                                        tabindex="-1"
+                                    )
+                                        i.fas.fa-eye.text-muted
 
-            .form-group
-                label(for="confirmar-contrasena") Confirmar Contraseña:
-                input#confirmar-contrasena.form-control(
-                    type="password" 
-                    name="confirmar-contrasena"
-                    minlength="8" 
-                    required
-                )
+                            .mb-4
+                                label.form-label(for="confirmar-contrasena")
+                                    i.fas.fa-lock.me-2
+                                    | Confirmar Contraseña
+                                .input-group
+                                    input#confirmar-contrasena.form-control.border-end-0(
+                                        type="password"
+                                        name="confirmar-contrasena"
+                                        placeholder="Repite tu contraseña"
+                                        minlength="8"
+                                        required
+                                    )
+                                    button.input-group-text.bg-white.border-start-0.btn-toggle-password(
+                                        type="button"
+                                        tabindex="-1"
+                                    )
+                                        i.fas.fa-eye.text-muted
 
-            button.btn.btn-primary(type="submit") Registrarse
+                            .form-check.mb-4
+                                input#terminos.form-check-input(
+                                    type="checkbox"
+                                    required
+                                )
+                                label.form-check-label.text-muted(for="terminos")
+                                    | Acepto los 
+                                    a.text-primary(href="#") términos y condiciones
 
-        p.text-center.mt-3
-            | ¿Ya tienes una cuenta? 
-            a(href="/auth/login") Inicia sesión aquí
+                            button.btn.btn-primary.w-100.py-3.mb-4(type="submit")
+                                i.fas.fa-user-plus.me-2
+                                | Crear Cuenta
+
+                    .card-footer.bg-light.p-4.text-center
+                        span.text-muted ¿Ya tienes una cuenta? 
+                        a.text-primary.text-decoration-none.ms-1(href="/auth/login") Inicia sesión aquí
+
+block scripts
+    script.
+        // Toggle password visibility
+        document.querySelectorAll('.btn-toggle-password').forEach(button => {
+            button.addEventListener('click', function() {
+                const input = this.closest('.input-group').querySelector('input');
+                const icon = this.querySelector('i');
+                
+                input.type = input.type === 'password' ? 'text' : 'password';
+                icon.classList.toggle('fa-eye');
+                icon.classList.toggle('fa-eye-slash');
+            });
+        });
+
+        // Password match validation
+        const form = document.querySelector('form');
+        form.addEventListener('submit', function(e) {
+            const password = document.querySelector('#contrasena');
+            const confirm = document.querySelector('#confirmar-contrasena');
+            
+            if (password.value !== confirm.value) {
+                e.preventDefault();
+                alert('Las contraseñas no coinciden');
+            }
+        });

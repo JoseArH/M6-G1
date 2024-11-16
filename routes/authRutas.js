@@ -16,7 +16,6 @@ router.get('/registro', (req, res) => {
 
 router.post('/registro', authController.register);
 
-// Cambiar esta implementación para usar el controlador
 router.get('/logout', esAutenticado, authController.logout);
 
 module.exports = router;

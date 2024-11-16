@@ -6,7 +6,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 const enviarCorreoConfirmacion = async (destinatario, detallesCompra) => {
     const { orderNumber, total, detalles } = detallesCompra;
 
-    const tmlContent = `
+    const htmlContent = `
         <h2>Confirmación de Compra</h2>
         <p>Gracias por tu compra en nuestra tienda.</p>
         <h3>Detalles de la Orden:</h3>
@@ -22,16 +22,23 @@ const enviarCorreoConfirmacion = async (destinatario, detallesCompra) => {
     `;
 
     try {
-        const data = await resend.emails.send({
+        console.log('Intentando enviar correo a:', destinatario);  // Agregado para debugging
+        const { data, error } = await resend.emails.send({
             from: 'La tiendita <onboarding@resend.dev>',
             to: destinatario,
             subject: 'Confirmación de tu compra',
             html: htmlContent
         });
+
+        if (error) {
+            console.error('Error específico de Resend:', error);
+            throw error;
+        }
+
         console.log('Correo enviado exitosamente a:', destinatario);
         return data;
     } catch (error) {
-        console.error('Error al enviar correo:', error);
+        console.error('Error detallado al enviar correo:', error);
         throw error;
     }
 };

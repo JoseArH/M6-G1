@@ -1,20 +1,46 @@
+//- commit.pug
 extends ../layout
 
 block content
-  .container
-    h1.mt-4 Resultado de la Transacción
-    if commitResponse.status === 'AUTHORIZED'
-      h2.text-success Pago Exitoso
-      p Tu pago ha sido procesado correctamente.
-    else
-      h2.text-danger Pago Fallido
-      p Lo sentimos, ha ocurrido un error en el proceso de pago.
-    
-    h3 Detalles de la transacción:
-    ul
-      li Orden de compra: #{commitResponse.buy_order}
-      li Monto: $#{commitResponse.amount}
-      li Estado: #{commitResponse.status}
-      li Código de autorización: #{commitResponse.authorization_code}
-    
-    a.btn.btn-primary(href="/") Volver a la tienda
+    .container.py-5
+        .row.justify-content-center
+            .col-md-8.col-lg-6
+                .card.border-0.shadow-lg
+                    .card-body.p-5.text-center
+                        if commitResponse.status === 'AUTHORIZED'
+                            .success-animation.mb-4
+                                i.fas.fa-check-circle.fa-4x.text-success.animate__animated.animate__bounceIn
+                            h1.h2.mb-3.text-success Pago Exitoso
+                            p.text-muted.mb-4 Tu pago ha sido procesado correctamente.
+                        else
+                            .error-animation.mb-4
+                                i.fas.fa-times-circle.fa-4x.text-danger.animate__animated.animate__shakeX
+                            h1.h2.mb-3.text-danger Pago Fallido
+                            p.text-muted.mb-4 Lo sentimos, ha ocurrido un error en el proceso de pago.
+                        
+                        .transaction-details.bg-light.rounded-3.p-4.mb-4
+                            h3.h5.mb-4 Detalles de la transacción
+                            .row.g-3
+                                .col-sm-6
+                                    .detail-item
+                                        .text-muted.small Orden de compra
+                                        .fw-bold #{commitResponse.buy_order}
+                                .col-sm-6
+                                    .detail-item
+                                        .text-muted.small Monto
+                                        .fw-bold.text-primary $#{commitResponse.amount}
+                                .col-sm-6
+                                    .detail-item
+                                        .text-muted.small Estado
+                                        .fw-bold #{commitResponse.status}
+                                .col-sm-6
+                                    .detail-item
+                                        .text-muted.small Código de autorización
+                                        .fw-bold #{commitResponse.authorization_code}
+                        
+                        a.btn.btn-primary.btn-lg.px-5(href="/")
+                            i.fas.fa-home.me-2
+                            | Volver a la tienda
+
+block styles
+    link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css")

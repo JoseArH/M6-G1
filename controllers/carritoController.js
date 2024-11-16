@@ -18,7 +18,6 @@ const agregarAlCarrito = async (req, res) => {
         res.redirect('/carrito');
     } catch (error) {
         console.error('Error al agregar al carrito:', error);
-        // Redirigir con mensaje de error
         res.status(400).render('error', { error: error.message });
     }
 };

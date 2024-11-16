@@ -4,7 +4,6 @@ const Usuario = require("../models/Usuario");
 const obtenerUsuarios = async (req, res) => {
     const usuarios = await usuarioServicio.obtenerTodosLosUsuarios();
     res.render("usuarios/index", { usuarios });
-    // res.status(200).send(usuarios)
 };
 
 const obtenerUsuario = async (req, res) => {
@@ -15,13 +14,12 @@ const obtenerUsuario = async (req, res) => {
 const crearUsuario = async (req, res) => {
     try {
         const { nombre, apellido, correo, contrasena } = req.body;
-        // Forzamos el rol admin para la vista de usuarios
         await usuarioServicio.crearUsuario({
             nombre,
             apellido,
             correo,
             contrasena,
-            rol: 'admin'  // Forzamos el rol admin
+            rol: 'admin' 
         });
         res.redirect("/usuarios");
     } catch (error) {
@@ -35,7 +33,6 @@ const crearUsuario = async (req, res) => {
 
 const crearComprador = async (req, res) => {
     try {
-        // Verificar si req.body existe
         if (!req.body) {
             throw new Error('No se recibieron datos del formulario');
         }
@@ -44,12 +41,10 @@ const crearComprador = async (req, res) => {
         
         const { nombre, apellido, correo, contrasena } = req.body;
         
-        // Validaciones básicas
         if (!nombre || !apellido || !correo || !contrasena) {
             throw new Error('Todos los campos son requeridos');
         }
 
-        // Intentamos crear el usuario
         const nuevoUsuario = await usuarioServicio.crearUsuario({
             nombre,
             apellido,
@@ -66,7 +61,6 @@ const crearComprador = async (req, res) => {
     } catch (error) {
         console.error('Error detallado:', error);
         
-        // Mensaje de error más específico
         let mensajeError = 'Error al crear el usuario';
         if (error.name === 'SequelizeUniqueConstraintError') {
             mensajeError = 'El correo electrónico ya está registrado';

@@ -23,7 +23,6 @@ const verificarInventario = async (productoId, cantidadSolicitada) => {
 };
 
 const agregarAlCarrito = async (usuarioId, productoId, cantidad) => {
-    // Verificar inventario antes de agregar
     await verificarInventario(productoId, cantidad);
 
     const itemExistente = await Carrito.findOne({
@@ -33,7 +32,6 @@ const agregarAlCarrito = async (usuarioId, productoId, cantidad) => {
 
     if (itemExistente) {
         const nuevaCantidad = itemExistente.cantidad + cantidad;
-        // Verificar que la nueva cantidad no exceda el inventario
         await verificarInventario(productoId, nuevaCantidad);
         
         return await itemExistente.update({
@@ -58,7 +56,6 @@ const actualizarCantidad = async (id, usuarioId, cantidad) => {
         throw new Error('Item no encontrado en el carrito');
     }
 
-    // Verificar inventario antes de actualizar
     await verificarInventario(item.productoId, cantidad);
 
     return await item.update({ cantidad });
@@ -70,7 +67,6 @@ const eliminarDelCarrito = async (id, usuarioId) => {
     });
 };
 
-// Añadir esta línea para mantener la compatibilidad con el código anterior
 const obtenerCarrito = obtenerCarritoPorUsuario;
 
 module.exports = {

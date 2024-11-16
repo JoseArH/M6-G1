@@ -1,10 +1,40 @@
+//- create.pug
 extends ../layout
 
 block content
-  .container
-    h1.mt-4 Iniciar Pago con WebPay Plus
-    p Orden de compra: #{buyOrder}
-    p Monto: $#{amount}
-    form(action=url method="POST")
-      input(type="hidden" name="token_ws" value=token)
-      button.btn.btn-primary(type="submit") Pagar con WebPay Plus
+    .container.py-5
+        .row.justify-content-center
+            .col-md-8.col-lg-6
+                .card.border-0.shadow-lg
+                    .card-header.bg-primary.text-white.p-4.text-center
+                        i.fab.fa-cc-visa.fa-3x.mb-3
+                        h1.h3.mb-0 Pagar con WebPay Plus
+
+                    .card-body.p-4
+                        .order-summary.bg-light.rounded-3.p-4.mb-4
+                            .row.g-3
+                                .col-sm-6
+                                    .detail-item
+                                        .text-muted.small Orden de compra
+                                        .h5.mb-0 #{buyOrder}
+                                .col-sm-6
+                                    .detail-item
+                                        .text-muted.small Monto total
+                                        .h5.mb-0.text-primary $#{amount}
+
+                        form(action=url method="POST").text-center
+                            input(type="hidden" name="token_ws" value=token)
+                            button.btn.btn-primary.btn-lg.px-5.py-3(type="submit")
+                                i.fas.fa-lock.me-2
+                                | Proceder al pago seguro
+                        
+                        .security-badges.text-center.mt-4
+                            .row.justify-content-center
+                                .col-auto
+                                    i.fas.fa-lock.fa-2x.text-muted
+                                .col-auto
+                                    i.fab.fa-cc-visa.fa-2x.text-muted
+                                .col-auto
+                                    i.fab.fa-cc-mastercard.fa-2x.text-muted
+                            .mt-2
+                                small.text-muted Transacción segura con certificado SSL

@@ -1,4 +1,3 @@
-// controllers/authController.js
 const usuarioServicio = require("../services/usuarioServicio");
 
 const login = async (req, res) => {
@@ -23,7 +22,6 @@ const login = async (req, res) => {
 
     console.log("Usuario autenticado:", usuario.correo, "Rol:", usuario.rol);
 
-    // Asegurarnos de que la sesión se guarde antes de redirigir
     req.session.save((err) => {
       if (err) {
         console.error("Error al guardar la sesión:", err);
@@ -33,11 +31,10 @@ const login = async (req, res) => {
         });
       }
 
-      // Redirigir según el rol
       if (usuario.rol === "admin") {
-        res.redirect("/admin"); // Panel de administración
+        res.redirect("/admin");
       } else {
-        res.redirect("/"); // Vista de tienda para compradores
+        res.redirect("/");
       }
     });
   } catch (error) {
@@ -58,7 +55,7 @@ const register = async (req, res) => {
       apellido,
       correo,
       contrasena,
-      rol: "comprador", // Por defecto
+      rol: "comprador",
     });
 
     console.log("Usuario registrado exitosamente:", correo);

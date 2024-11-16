@@ -1,32 +1,79 @@
+//- login.pug
 extends ../layout
 
 block content
-    .container.mt-5
-      h1.text-center Iniciar Sesión
+    .container.py-5
+        .row.justify-content-center
+            .col-md-6.col-lg-5
+                .card.border-0.shadow-lg
+                    .card-body.p-5
+                        // Logo o ícono de la app
+                        .text-center.mb-4
+                            i.fas.fa-user-circle.fa-3x.text-primary
+                            h1.h3.mt-3.font-weight-bold Iniciar Sesión
+                            p.text-muted Bienvenido de vuelta
 
-      if error
-        .alert.alert-danger #{error}
+                        if error
+                            .alert.alert-danger.alert-dismissible.fade.show
+                                i.fas.fa-exclamation-circle.me-2
+                                | #{error}
+                                button.btn-close(type="button" data-bs-dismiss="alert")
 
-      form(method="POST" action="/auth/login")
-        .form-group
-          label(for="correo") Correo Electrónico:
-          input#correo.form-control(
-            type="email" 
-            name="correo"
-            required
-          )
+                        form.needs-validation(method="POST" action="/auth/login" novalidate)
+                            .mb-4
+                                label.form-label(for="correo")
+                                    i.fas.fa-envelope.me-2
+                                    | Correo Electrónico
+                                .input-group
+                                    input#correo.form-control.border-end-0(
+                                        type="email"
+                                        name="correo"
+                                        placeholder="ejemplo@correo.com"
+                                        required
+                                    )
+                                    span.input-group-text.bg-white.border-start-0
+                                        i.fas.fa-envelope.text-muted
 
-        .form-group
-          label(for="contrasena") Contraseña:
-          input#contrasena.form-control(
-            type="password" 
-            name="contrasena"
-            minlength="8"
-            required
-          )
-        button.btn.btn-primary.w-100(type="submit") Iniciar Sesión
+                            .mb-4
+                                label.form-label(for="contrasena")
+                                    i.fas.fa-lock.me-2
+                                    | Contraseña
+                                .input-group
+                                    input#contrasena.form-control.border-end-0(
+                                        type="password"
+                                        name="contrasena"
+                                        placeholder="Ingresa tu contraseña"
+                                        minlength="8"
+                                        required
+                                    )
+                                    button.input-group-text.bg-white.border-start-0.btn-toggle-password(
+                                        type="button"
+                                        tabindex="-1"
+                                    )
+                                        i.fas.fa-eye.text-muted
 
-      p.text-center.mt-3
-        | ¿No tienes una cuenta? 
-        a(href="/auth/registro") Regístrate aquí
+                            .d-flex.justify-content-between.align-items-center.mb-4
+                                .form-check
+                                    input#remember.form-check-input(type="checkbox")
+                                    label.form-check-label.text-muted(for="remember") Recordarme
+                                a.text-primary.text-decoration-none.small(href="#") ¿Olvidaste tu contraseña?
 
+                            button.btn.btn-primary.w-100.py-3.mb-4(type="submit")
+                                i.fas.fa-sign-in-alt.me-2
+                                | Iniciar Sesión
+
+                    .card-footer.bg-light.p-4.text-center
+                        span.text-muted ¿No tienes una cuenta? 
+                        a.text-primary.text-decoration-none.ms-1(href="/auth/registro") Regístrate aquí
+
+block scripts
+    script.
+        // Toggle password visibility
+        document.querySelector('.btn-toggle-password').addEventListener('click', function() {
+            const input = this.closest('.input-group').querySelector('input');
+            const icon = this.querySelector('i');
+            
+            input.type = input.type === 'password' ? 'text' : 'password';
+            icon.classList.toggle('fa-eye');
+            icon.classList.toggle('fa-eye-slash');
+        });
